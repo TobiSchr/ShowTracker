@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.4.0_9a471d42eb671e56285555982676e9035cbe5a3d.jar" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.4.0_366766a02449254d5d0ca4b88bc7a30b8d8fa2fe.jar" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\internal_impl-23.4.0_4ea4199808a9b236a664ed7c920bb2b4c8d7b0ef.jar" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.4.0_35199e7338a3303dabe0628d2d91a10a8540282c.jar" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c9d4273028e800d66c5262f9e02b1484bedb33b9">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_5c79cc71eeb1ed2e48d9572d99f4809ef0ba1b6d.jar" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.4.0_20585b4cb6b4a7b18df55824c9fa58bbcb34f8af.jar" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.4.0_e41b6962002475c9f24975f525a1f87b97f4a331.jar" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.4.0_a072e04c3c62602d1bcdfd2a870f3ce1b9c61506.jar" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="526fd3f36436ba6693682eef5bbc40688d05afa6">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\instant-run_b04119c928cf4e3923de2bb79b91591e5466ea2c.jar" />
+    </item>
+    <item
+        jar="E:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\support-annotations-23.4.0_0f6553860408c70fcbf9af741b0e3a91ead8e096.jar" />
+    </item>
+
+</items>
