@@ -12,9 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +28,26 @@ public class WatchList extends AppCompatActivity
         setContentView(R.layout.activity_watch_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        lv = (ListView)findViewById(R.id.watchlistLV);
+
+        //TODO FILL VALUES DYNAMIC FROM SAVEFILE
+        ArrayList<String>values = new ArrayList<String>();
+        values.add("GoT - s6e10 - 10.06.2016");
+        values.add("Robot - s2e2 - 20.07.2016");
+        values.add("Robot - s2e3 - 27.07.2016");
+        values.add("Greys - s13e1 - 24.09.2016");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.single_listitem_with_switch, R.id.text1, values);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemvalue = (String)lv.getItemAtPosition(position);
+                Snackbar.make(view, itemvalue, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
