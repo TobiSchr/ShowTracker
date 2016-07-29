@@ -63,9 +63,9 @@ public class Episode{
      */
     public String getSeasonEpisodeAsString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("S");
+        sb.append("s");
         sb.append(String.format("%02d", seasonNumber));
-        sb.append("E");
+        sb.append("e");
         sb.append(String.format("%03d", episodeNumber));
         return sb.toString();
     }
