@@ -32,19 +32,20 @@ public class WatchList extends AppCompatActivity
         lv = (ListView)findViewById(R.id.watchlistLV);
 
         //TODO FILL VALUES DYNAMIC FROM SAVEFILE
-        ArrayList<String>values = new ArrayList<String>();
+        ArrayList<String>values = new ArrayList<>();
         values.add("GoT - s6e10 - 10.06.2016");
         values.add("Robot - s2e2 - 20.07.2016");
         values.add("Robot - s2e3 - 27.07.2016");
         values.add("Greys - s13e1 - 24.09.2016");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.single_listitem_with_switch, R.id.text1, values);
-
-
-        ArrayList<Episode>episodeList = new ArrayList<Episode>();
-
-        ArrayAdapter<Episode> adapter2 = new EpisodeAdapter(this, R.layout.single_listitem_with_switch_multitextview, episodeList);
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.single_listitem_with_switch, R.id.text1, values);
         lv.setAdapter(adapter);
+
+        /*
+        TODO use this if episodeadapter is working
+        ArrayList<Episode>episodeList = new ArrayList<>();
+        ArrayAdapter<Episode> adapter2 = new EpisodeAdapter(this, R.layout.single_listitem_with_switch_multitextview, episodeList);
+        lv.setAdapter(adapter2);
+        */
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -55,31 +56,39 @@ public class WatchList extends AppCompatActivity
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        if(fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if(drawer != null){
+            drawer.addDrawerListener(toggle);
+        }
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if(navigationView != null){
+            navigationView.setNavigationItemSelectedListener(this);
+        }
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if(drawer != null){
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -126,7 +135,9 @@ public class WatchList extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if(drawer != null) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
         return true;
     }
 }

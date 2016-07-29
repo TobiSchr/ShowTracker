@@ -2,12 +2,10 @@ package tobis.showtracker;
 
 import org.joda.time.LocalDate;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by TobiX on 29.07.2016.
+ *
+ * Class with contains info of one Episode
  */
 public class Episode{
     private String showShortCut;
@@ -15,8 +13,6 @@ public class Episode{
     private int episodeNumber;
     private LocalDate date;
 
-    //private final Format dateFormat = new SimpleDateFormat("dd.MM.yy");
-    private final String dateFormat = "dd.MM.yy";
     /**
      *
      * @param showShortCut shortcut of the show name
@@ -51,15 +47,14 @@ public class Episode{
     }
 
     public void setDate(int day, int month, int year){
-        LocalDate date = new LocalDate(year, month, day);
-        this.date = date;
+        this.date = new LocalDate(year, month, day);
     }
 
     /**
      * @return returns Data in format "01.01.2016"
      */
     public String getDateAsString(){
-        return date.toString(dateFormat);
+        return date.toString("dd.MM.yy");
         //TODO needs to be tested
     }
 

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 /**
  * Created by TobiX on 29.07.2016.
+ *
+ * Custom Adapter to use layouts with multiple textviews items in Listviews
  */
 public class EpisodeAdapter extends ArrayAdapter<Episode> {
     private final Context context;
@@ -28,7 +30,7 @@ public class EpisodeAdapter extends ArrayAdapter<Episode> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        ViewHolder holder = null;
+        ViewHolder holder;
 
         if(row == null)
         {
