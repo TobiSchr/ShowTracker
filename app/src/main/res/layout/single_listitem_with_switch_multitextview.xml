@@ -9,19 +9,33 @@
 
     <TextView
         android:layout_weight="1"
-        android:id="@+id/text1"
+        android:id="@+id/shortcutname"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical" />
+    <TextView
+        android:layout_weight="0"
+        android:id="@+id/seasonepisodenumbers"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|end" />
+    <TextView
+        android:layout_weight="0"
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|end" />
 
     <ImageView
         android:layout_weight="0"
         android:id="@+id/eye"
+        android:contentDescription="@string/image_unseen"
+        android:src="@drawable/ic_eye_unseen_v2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:src="@drawable/ic_eye_unseen_v2"
-        android:scaleType="center"/>
+        android:scaleType="center"
+        android:layout_marginLeft="10dp"/>
 
     <android.support.v7.widget.SwitchCompat
         android:layout_weight="0"

@@ -38,8 +38,9 @@ public class EpisodeAdapter extends ArrayAdapter<Episode> {
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new ViewHolder();
-            holder.textView1 = (TextView)row.findViewById(R.id.text1);
-            holder.textView2 = (TextView)row.findViewById(R.id.text2);
+            holder.textViewName = (TextView)row.findViewById(R.id.shortcutname);
+            holder.textViewNumbers = (TextView)row.findViewById(R.id.seasonepisodenumbers);
+            holder.textViewDate = (TextView)row.findViewById(R.id.date);
 
             row.setTag(holder);
         }
@@ -50,14 +51,16 @@ public class EpisodeAdapter extends ArrayAdapter<Episode> {
 
         Episode episode = data.get(position);
 
-        holder.textView1.setText(episode.getShowShortCut());
-        holder.textView2.setText(episode.getSeasonEpisodeAsString());
+        holder.textViewName.setText(episode.getShowShortCut());
+        holder.textViewNumbers.setText(episode.getSeasonEpisodeAsString());
+        holder.textViewDate.setText(episode.getDateAsString());
         return row;
     }
 
     static class ViewHolder
     {
-        TextView textView1;
-        TextView textView2;
+        TextView textViewName;
+        TextView textViewNumbers;
+        TextView textViewDate;
     }
 }

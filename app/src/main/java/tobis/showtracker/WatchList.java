@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.joda.time.LocalDate;
+
 import java.util.ArrayList;
 
 public class WatchList extends AppCompatActivity
@@ -32,6 +34,7 @@ public class WatchList extends AppCompatActivity
         lv = (ListView)findViewById(R.id.watchlistLV);
 
         //TODO FILL VALUES DYNAMIC FROM SAVEFILE
+        /*
         ArrayList<String>values = new ArrayList<>();
         values.add("GoT - s6e10 - 10.06.2016");
         values.add("Robot - s2e2 - 20.07.2016");
@@ -39,13 +42,26 @@ public class WatchList extends AppCompatActivity
         values.add("Greys - s13e1 - 24.09.2016");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.single_listitem_with_switch, R.id.text1, values);
         lv.setAdapter(adapter);
+        */
 
-        /*
-        TODO use this if episodeadapter is working
+        //TODO use this if episodeadapter is working
+        LocalDate ld = LocalDate.now();
         ArrayList<Episode>episodeList = new ArrayList<>();
+        episodeList.add(new Episode("GoT", 6, 9, ld));
+        ld = ld.plusDays(1);
+        episodeList.add(new Episode("GoT", 6, 10, ld));
+        ld = ld.plusWeeks(1);
+        episodeList.add(new Episode("BrBa", 5, 10, ld));
+        ld = ld.plusDays(1);
+        episodeList.add(new Episode("HoC", 3, 1, ld));
+        ld = ld.plusDays(1);
+        episodeList.add(new Episode("Greys", 13, 23, ld));
+        ld = ld.plusDays(1);
+        episodeList.add(new Episode("OP", 1, 388, ld));
+
         ArrayAdapter<Episode> adapter2 = new EpisodeAdapter(this, R.layout.single_listitem_with_switch_multitextview, episodeList);
         lv.setAdapter(adapter2);
-        */
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

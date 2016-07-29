@@ -62,7 +62,11 @@ public class Episode{
      * @return returns Season and Episode number in format "S01E001"
      */
     public String getSeasonEpisodeAsString(){
-        //TODO
-        return "yolo";
+        StringBuilder sb = new StringBuilder();
+        sb.append("S");
+        sb.append(String.format("%02d", seasonNumber));
+        sb.append("E");
+        sb.append(String.format("%03d", episodeNumber));
+        return sb.toString();
     }
 }
