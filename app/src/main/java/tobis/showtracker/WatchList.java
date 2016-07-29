@@ -37,8 +37,13 @@ public class WatchList extends AppCompatActivity
         values.add("Robot - s2e2 - 20.07.2016");
         values.add("Robot - s2e3 - 27.07.2016");
         values.add("Greys - s13e1 - 24.09.2016");
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.single_listitem_with_switch, R.id.text1, values);
+
+
+        ArrayList<Episode>episodeList = new ArrayList<Episode>();
+
+        ArrayAdapter<Episode> adapter2 = new EpisodeAdapter(this, R.layout.single_listitem_with_switch_multitextview, episodeList);
+
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
