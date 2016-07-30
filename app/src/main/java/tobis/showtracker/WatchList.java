@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -38,19 +37,26 @@ public class WatchList extends AppCompatActivity
         //TODO use this if episodeadapter is working
         LocalDate ld = LocalDate.now();
         ArrayList<Episode>episodeList = new ArrayList<>();
-        episodeList.add(new Episode("GoT", 6, 9, ld));
+        episodeList.add(new Episode("Game of Thrones", 6, 9, ld));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("GoT", 6, 10, ld));
+        episodeList.add(new Episode("Game of Thrones", 6, 10, ld));
         ld = ld.plusWeeks(1);
-        episodeList.add(new Episode("BrBa", 5, 10, ld));
+        episodeList.add(new Episode("Breaking Bad", 5, 10, ld));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("HoC", 3, 1, ld));
+        episodeList.add(new Episode("House of Cards", 3, 1, ld));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Greys", 13, 23, ld));
+        episodeList.add(new Episode("Grey's Anatomy", 13, 23, ld));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("OP", 1, 388, ld));
+        episodeList.add(new Episode("One Piece", 1, 388, ld));
+        ld = ld.plusWeeks(2);
+        episodeList.add(new Episode("One Piece", 1, 389, ld));
+        ld = ld.plusDays(1);
+        episodeList.add(new Episode("Game of Thrones", 7, 1, ld));
+        ld = ld.plusDays(1);
+        episodeList.add(new Episode("Shameless", 8, 1, ld));
 
-        ArrayAdapter<Episode> adapter2 = new EpisodeAdapter(this, R.layout.single_listitem_with_switch_multitextview, episodeList);
+
+        ArrayAdapter<Episode> adapter2 = new EpisodeAdapter(this, R.layout.single_listitem_two_line, episodeList);
         lv.setAdapter(adapter2);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

@@ -2,23 +2,24 @@ package tobis.showtracker;
 
 import org.joda.time.LocalDate;
 
+import java.util.Locale;
+
 /**
  * Created by TobiX on 29.07.2016.
- *
+ * <p/>
  * Class with contains info of one Episode
  */
-public class Episode{
+public class Episode {
     private String showShortCut;
     private int seasonNumber;
     private int episodeNumber;
     private LocalDate date;
 
     /**
-     *
-     * @param showShortCut shortcut of the show name
-     * @param seasonNumber season number
+     * @param showShortCut  shortcut of the show name
+     * @param seasonNumber  season number
      * @param episodeNumber episode number
-     * @param date airtime of the episode format "01.01.2017"
+     * @param date          airtime of the episode format "01.01.2017"
      */
     Episode(String showShortCut, int seasonNumber, int episodeNumber, LocalDate date) {
         this.showShortCut = showShortCut;
@@ -26,6 +27,7 @@ public class Episode{
         this.episodeNumber = episodeNumber;
         this.date = date;
     }
+
     public String getShowShortCut() {
         return showShortCut;
     }
@@ -46,14 +48,14 @@ public class Episode{
         this.date = date;
     }
 
-    public void setDate(int day, int month, int year){
+    public void setDate(int day, int month, int year) {
         this.date = new LocalDate(year, month, day);
     }
 
     /**
      * @return returns Data in format "01.01.2016"
      */
-    public String getDateAsString(){
+    public String getDateAsString() {
         return date.toString("dd.MM.yy");
         //TODO needs to be tested
     }
@@ -61,12 +63,9 @@ public class Episode{
     /**
      * @return returns Season and Episode number in format "S01E001"
      */
-    public String getSeasonEpisodeAsString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("s");
-        sb.append(String.format("%02d", seasonNumber));
-        sb.append("e");
-        sb.append(String.format("%03d", episodeNumber));
-        return sb.toString();
+    public String getSeasonEpisodeAsString() {
+        //return "S" + String.format(Locale.GERMANY,"%02d", seasonNumber)
+        //        + "-E" + String.format("%03d", episodeNumber);
+        return "S" + seasonNumber + "-E" + episodeNumber;
     }
 }

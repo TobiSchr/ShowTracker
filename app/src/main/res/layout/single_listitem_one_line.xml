@@ -21,17 +21,20 @@
             android:id="@+id/shortcutname"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/seasonepisodenumbers"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textSize="18sp"/>
     </LinearLayout>
     <ImageView
         android:id="@+id/eye"

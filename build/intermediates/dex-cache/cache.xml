@@ -33,7 +33,7 @@
         jar="G:\Code\ShowTracker\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="615be86fb1fec3b827d1fe99556505c7d38c920b">
+        sha1="a2d51fa1f9c9671bbb4433ac14b4107d521b5fe2">
         <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_5c79cc71eeb1ed2e48d9572d99f4809ef0ba1b6d.jar" />
     </item>
     <item
@@ -61,7 +61,7 @@
         jar="G:\Code\ShowTracker\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="c423215a394cff32cce8add2fc9af3a2c4b22eeb">
+        sha1="1a5256fd41a4576014f77419fedef686d902a0ea">
         <dex dex="G:\Code\ShowTracker\app\build\intermediates\pre-dexed\debug\instant-run_b04119c928cf4e3923de2bb79b91591e5466ea2c.jar" />
     </item>
     <item
