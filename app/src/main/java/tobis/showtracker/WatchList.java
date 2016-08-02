@@ -3,6 +3,7 @@ package tobis.showtracker;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,7 +24,7 @@ import java.util.Comparator;
 
 public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    ListView lv;
+    RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class WatchList extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        lv = (ListView)findViewById(R.id.watchlistLV);
+        rv = (RecyclerView)findViewById(R.id.watchlistRV);
 
         LocalDate ld = LocalDate.now();
         ArrayList<Episode>episodeList = new ArrayList<>();
@@ -83,7 +84,7 @@ public class WatchList extends AppCompatActivity
 
         adapter2.sort(comparator_date);
         //adapter2.sort(comparator_name);
-        lv.setAdapter(adapter2);
+        rv.setAdapter(adapter2);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if(fab != null) {
