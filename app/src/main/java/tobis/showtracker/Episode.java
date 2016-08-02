@@ -54,7 +54,6 @@ class Episode {
      */
     String getDateAsString() {
         return date.toString("dd.MM.yy");
-        //TODO needs to be tested
     }
 
     /**

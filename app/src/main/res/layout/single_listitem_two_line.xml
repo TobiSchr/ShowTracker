@@ -14,8 +14,8 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_toLeftOf="@+id/eye_layout"
-        android:layout_toStartOf="@+id/eye_layout"
+        android:layout_toLeftOf="@+id/eye_image"
+        android:layout_toStartOf="@+id/eye_image"
         android:orientation="vertical">
 
         <TextView
@@ -49,24 +49,18 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/eye_layout"
+    <ImageView
+        android:id="@+id/eye_image"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/switch_watched"
-        android:layout_toStartOf="@+id/switch_watched">
-
-        <ImageView
-            android:id="@+id/eye_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/image_unseen"
-            android:scaleType="fitStart"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_eye_unseen_v2" />
-    </RelativeLayout>
+        android:layout_toStartOf="@+id/switch_watched"
+        android:contentDescription="@string/image_unseen"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_eye_unseen_v2" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/switch_watched"

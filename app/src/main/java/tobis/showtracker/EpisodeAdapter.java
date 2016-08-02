@@ -2,6 +2,7 @@ package tobis.showtracker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -46,7 +47,9 @@ class EpisodeAdapter extends ArrayAdapter<Episode> {
             holder.textViewName = (TextView)row.findViewById(R.id.showname);
             holder.textViewNumbers = (TextView)row.findViewById(R.id.seasonepisodenumbers);
             holder.textViewDate = (TextView)row.findViewById(R.id.date);
-            holder.switchCompat = (SwitchCompat)row.findViewById(R.id.switch_watched);
+            holder.imageViewEye = (ImageView) row.findViewById(R.id.eye_image);
+            holder.switchCompatWatched = (SwitchCompat)row.findViewById(R.id.switch_watched);
+
 
             row.setTag(holder);
         }
@@ -61,7 +64,17 @@ class EpisodeAdapter extends ArrayAdapter<Episode> {
         holder.textViewNumbers.setText(episode.getSeasonEpisodeAsString());
         holder.textViewDate.setText(episode.getDateAsString());
 
-        holder.switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.imageViewEye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //click on image toggles the state of the switch
+                //switch state change listener will change the image
+                RelativeLayout itemlayout = (RelativeLayout) v.getParent();
+                ((SwitchCompat) itemlayout.findViewById(R.id.switch_watched)).toggle();
+            }
+        });
+
+        holder.switchCompatWatched.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 RelativeLayout itemlayout = (RelativeLayout)buttonView.getParent();
@@ -84,6 +97,7 @@ class EpisodeAdapter extends ArrayAdapter<Episode> {
         TextView textViewName;
         TextView textViewNumbers;
         TextView textViewDate;
-        SwitchCompat switchCompat;
+        ImageView imageViewEye;
+        SwitchCompat switchCompatWatched;
     }
 }

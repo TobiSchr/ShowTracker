@@ -33,9 +33,6 @@ public class WatchList extends AppCompatActivity
 
         lv = (ListView)findViewById(R.id.watchlistLV);
 
-        //TODO FILL VALUES DYNAMIC FROM SAVEFILE
-
-        //TODO use this if episodeadapter is working
         LocalDate ld = LocalDate.now();
         ArrayList<Episode>episodeList = new ArrayList<>();
         episodeList.add(new Episode("Game of Thrones", 6, 9, ld));
