@@ -65,7 +65,7 @@ public class WatchList extends AppCompatActivity
         Comparator<Episode> comparator_name = new Comparator<Episode>() {
             @Override
             public int compare(Episode lhs, Episode rhs) {
-                int compare_score = 0;
+                int compare_score;
                 compare_score = lhs.getShowName().compareToIgnoreCase(rhs.getShowName());
                 compare_score *= 100; //NN00 Namedif00
                 compare_score += lhs.getSeasonNumber() - rhs.getSeasonNumber();
@@ -77,12 +77,13 @@ public class WatchList extends AppCompatActivity
         Comparator<Episode> comparator_date = new Comparator<Episode>() {
             @Override
             public int compare(Episode lhs, Episode rhs) {
-                int compare_score = 0;
-                //TODO
+                int compare_score;
                 compare_score = lhs.getDate().compareTo(rhs.getDate());
                 return compare_score;
             }
         };
+
+        //adapter2.sort(comparator_date);
         adapter2.sort(comparator_name);
         lv.setAdapter(adapter2);
 

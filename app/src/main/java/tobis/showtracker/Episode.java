@@ -2,14 +2,11 @@ package tobis.showtracker;
 
 import org.joda.time.LocalDate;
 
-import java.util.Locale;
-
 /**
  * Created by TobiX on 29.07.2016.
- * <p/>
  * Class with contains info of one Episode
  */
-public class Episode {
+class Episode {
     private String showName;
     private int seasonNumber;
     private int episodeNumber;
@@ -28,19 +25,19 @@ public class Episode {
         this.date = date;
     }
 
-    public String getShowName() {
+    String getShowName() {
         return showName;
     }
 
-    public int getSeasonNumber() {
+    int getSeasonNumber() {
         return seasonNumber;
     }
 
-    public int getEpisodeNumber() {
+    int getEpisodeNumber() {
         return episodeNumber;
     }
 
-    public LocalDate getDate() {
+    LocalDate getDate() {
         return date;
     }
 
@@ -55,7 +52,7 @@ public class Episode {
     /**
      * @return returns Data in format "01.01.2016"
      */
-    public String getDateAsString() {
+    String getDateAsString() {
         return date.toString("dd.MM.yy");
         //TODO needs to be tested
     }
@@ -63,7 +60,7 @@ public class Episode {
     /**
      * @return returns Season and Episode number in format "S01E001"
      */
-    public String getSeasonEpisodeAsString() {
+    String getSeasonEpisodeAsString() {
         //return "S" + String.format(Locale.GERMANY,"%02d", seasonNumber)
         //        + "-E" + String.format("%03d", episodeNumber);
         return "S" + seasonNumber + "-E" + episodeNumber;
