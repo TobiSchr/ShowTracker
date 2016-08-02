@@ -10,26 +10,26 @@ import java.util.Locale;
  * Class with contains info of one Episode
  */
 public class Episode {
-    private String showShortCut;
+    private String showName;
     private int seasonNumber;
     private int episodeNumber;
     private LocalDate date;
 
     /**
-     * @param showShortCut  shortcut of the show name
+     * @param showName name of the show
      * @param seasonNumber  season number
      * @param episodeNumber episode number
      * @param date          airtime of the episode format "01.01.2017"
      */
-    Episode(String showShortCut, int seasonNumber, int episodeNumber, LocalDate date) {
-        this.showShortCut = showShortCut;
+    Episode(String showName, int seasonNumber, int episodeNumber, LocalDate date) {
+        this.showName = showName;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.date = date;
     }
 
-    public String getShowShortCut() {
-        return showShortCut;
+    public String getShowName() {
+        return showName;
     }
 
     public int getSeasonNumber() {

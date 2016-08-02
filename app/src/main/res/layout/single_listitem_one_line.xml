@@ -18,7 +18,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp">
         <TextView
-            android:id="@+id/shortcutname"
+            android:id="@+id/showname"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -40,15 +40,15 @@
         android:id="@+id/eye"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/switchwatched"
-        android:layout_toStartOf="@+id/switchwatched"
+        android:layout_toLeftOf="@+id/switch_watched"
+        android:layout_toStartOf="@+id/switch_watched"
         android:layout_centerVertical="true"
         android:contentDescription="@string/image_unseen"
         android:src="@drawable/ic_eye_unseen_v2"
         android:scaleType="center"/>
 
     <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switchwatched"
+        android:id="@+id/switch_watched"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"

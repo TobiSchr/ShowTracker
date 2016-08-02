@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/shortcutname"
+            android:id="@+id/showname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -65,7 +65,7 @@
             android:contentDescription="@string/image_unseen"
             android:scaleType="fitStart"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_eye_seen_v2" />
+            android:src="@drawable/ic_eye_unseen_v2" />
     </RelativeLayout>
 
     <android.support.v7.widget.SwitchCompat
@@ -75,5 +75,5 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:checked="false" />
+        android:checked="false"/>
 </RelativeLayout>

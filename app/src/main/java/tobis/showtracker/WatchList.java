@@ -18,6 +18,7 @@ import android.widget.ListView;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +40,11 @@ public class WatchList extends AppCompatActivity
         ArrayList<Episode>episodeList = new ArrayList<>();
         episodeList.add(new Episode("Game of Thrones", 6, 9, ld));
         ld = ld.plusDays(1);
+        episodeList.add(new Episode("Game of Thrones", 7, 2, ld));
+        ld = ld.plusDays(1);
         episodeList.add(new Episode("Game of Thrones", 6, 10, ld));
+        ld = ld.plusWeeks(1);
+        episodeList.add(new Episode("Game of Thrones", 6, 8, ld));
         ld = ld.plusWeeks(1);
         episodeList.add(new Episode("Breaking Bad", 5, 10, ld));
         ld = ld.plusDays(1);
@@ -57,6 +62,28 @@ public class WatchList extends AppCompatActivity
 
 
         ArrayAdapter<Episode> adapter2 = new EpisodeAdapter(this, R.layout.single_listitem_two_line, episodeList);
+        Comparator<Episode> comparator_name = new Comparator<Episode>() {
+            @Override
+            public int compare(Episode lhs, Episode rhs) {
+                int compare_score = 0;
+                compare_score = lhs.getShowName().compareToIgnoreCase(rhs.getShowName());
+                compare_score *= 100; //NN00 Namedif00
+                compare_score += lhs.getSeasonNumber() - rhs.getSeasonNumber();
+                compare_score *= 1000; //NNSS000 NamedifSeasonnumdiff00
+                compare_score += lhs.getEpisodeNumber() - rhs.getEpisodeNumber();
+                return compare_score; //NNSSEEE NamedifSeasondifEpisodedif
+            }
+        };
+        Comparator<Episode> comparator_date = new Comparator<Episode>() {
+            @Override
+            public int compare(Episode lhs, Episode rhs) {
+                int compare_score = 0;
+                //TODO
+                compare_score = lhs.getDate().compareTo(rhs.getDate());
+                return compare_score;
+            }
+        };
+        adapter2.sort(comparator_name);
         lv.setAdapter(adapter2);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
