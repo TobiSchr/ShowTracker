@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -80,17 +81,18 @@ public class WatchList extends AppCompatActivity
             }
         };
 
-        //adapter2.sort(comparator_date);
-        adapter2.sort(comparator_name);
+        adapter2.sort(comparator_date);
+        //adapter2.sort(comparator_name);
         lv.setAdapter(adapter2);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if(fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    //  .setAction("Action", null).show();
+                    fab.setVisibility(View.GONE);
                 }
             });
         }
