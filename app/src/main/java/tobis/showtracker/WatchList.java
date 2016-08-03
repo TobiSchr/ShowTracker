@@ -2,7 +2,8 @@ package tobis.showtracker;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,18 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AlphaAnimation;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    ListView lv;
+    private RecyclerView.Adapter mAdapter;
+    ArrayList<Episode> episodeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +32,17 @@ public class WatchList extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        lv = (ListView)findViewById(R.id.watchlistLV);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.watchlistRV);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(false);
+
+        // use a linear layout manager
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         LocalDate ld = LocalDate.now();
-        ArrayList<Episode>episodeList = new ArrayList<>();
+        episodeList = new ArrayList<>();
         episodeList.add(new Episode("Game of Thrones", 6, 9, ld));
         ld = ld.plusDays(1);
         episodeList.add(new Episode("Game of Thrones", 7, 2, ld));
@@ -58,40 +65,15 @@ public class WatchList extends AppCompatActivity
         ld = ld.plusDays(1);
         episodeList.add(new Episode("Shameless", 8, 1, ld));
 
-
-        ArrayAdapter<Episode> adapter2 = new EpisodeAdapter(this, R.layout.single_listitem_two_line, episodeList);
-        Comparator<Episode> comparator_name = new Comparator<Episode>() {
-            @Override
-            public int compare(Episode lhs, Episode rhs) {
-                int compare_score;
-                compare_score = lhs.getShowName().compareToIgnoreCase(rhs.getShowName());
-                compare_score *= 100; //NN00 Namedif00
-                compare_score += lhs.getSeasonNumber() - rhs.getSeasonNumber();
-                compare_score *= 1000; //NNSS000 NamedifSeasonnumdiff00
-                compare_score += lhs.getEpisodeNumber() - rhs.getEpisodeNumber();
-                return compare_score; //NNSSEEE NamedifSeasondifEpisodedif
-            }
-        };
-        Comparator<Episode> comparator_date = new Comparator<Episode>() {
-            @Override
-            public int compare(Episode lhs, Episode rhs) {
-                int compare_score;
-                compare_score = lhs.getDate().compareTo(rhs.getDate());
-                return compare_score;
-            }
-        };
-
-        adapter2.sort(comparator_date);
-        //adapter2.sort(comparator_name);
-        lv.setAdapter(adapter2);
+        mAdapter = new EpisodeRecycleAdapter(episodeList);
+        mRecyclerView.setAdapter(mAdapter);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if(fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    //  .setAction("Action", null).show();
+                    //TODO
                     fab.setVisibility(View.GONE);
                 }
             });
@@ -138,7 +120,36 @@ public class WatchList extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sort_by_name){
+            Comparator<Episode> comparator_name = new Comparator<Episode>() {
+                @Override
+                public int compare(Episode lhs, Episode rhs) {
+                    int compare_score;
+                    compare_score = lhs.getShowName().compareToIgnoreCase(rhs.getShowName());
+                    compare_score *= 100; //NN00 Namedif00
+                    compare_score += lhs.getSeasonNumber() - rhs.getSeasonNumber();
+                    compare_score *= 1000; //NNSS000 NamedifSeasonnumdiff00
+                    compare_score += lhs.getEpisodeNumber() - rhs.getEpisodeNumber();
+                    return compare_score; //NNSSEEE NamedifSeasondifEpisodedif
+                }
+            };
+            Collections.sort(episodeList, comparator_name);
+            mAdapter.notifyDataSetChanged();
+            return true;
+        }
+
+        if (id == R.id.action_sort_by_date){
+
+            Comparator<Episode> comparator_date = new Comparator<Episode>() {
+                @Override
+                public int compare(Episode lhs, Episode rhs) {
+                    int compare_score;
+                    compare_score = lhs.getDate().compareTo(rhs.getDate());
+                    return compare_score;
+                }
+            };
+            Collections.sort(episodeList, comparator_date);
+            mAdapter.notifyDataSetChanged();
             return true;
         }
 
