@@ -1,5 +1,9 @@
 package tobis.showtracker;
 
+import android.app.Activity;
+import android.content.Context;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -9,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,10 +25,13 @@ import java.util.ArrayList;
 
 class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.ViewHolder> {
     private ArrayList<Episode> episodes = new ArrayList<>();
+    private Context context;
+    private int counterOfActiveSwitches = 0;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public EpisodeRecycleAdapter(ArrayList<Episode> myDataset) {
+    EpisodeRecycleAdapter(Context context, ArrayList<Episode> myDataset) {
         super();
+        this.context = context;
         this.episodes = myDataset;
     }
 
@@ -81,13 +89,24 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 RelativeLayout item_layout = (RelativeLayout)buttonView.getParent();
                 ImageView eye_image = (ImageView) item_layout.findViewById(R.id.eye_image);
+                FloatingActionButton fab = (FloatingActionButton) item_layout.getRootView().findViewById(R.id.fab);
                 if(isChecked){
                     //seen
                     eye_image.setImageResource(R.drawable.ic_eye_seen_v2);
+                    counterOfActiveSwitches++;
+                    //if(counterOfActiveSwitches > 0 && fab.getVisibility() != View.VISIBLE){
+                        fab.show();
+                    //}
                 }else{
                     //unseen
                     eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
+                    counterOfActiveSwitches--;
+                    //if(counterOfActiveSwitches <= 0 && fab.getVisibility()==View.VISIBLE){
+                        fab.hide();
+                    //}
                 }
+                Toast.makeText(context, String.valueOf(counterOfActiveSwitches),
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

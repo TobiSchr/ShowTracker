@@ -24,6 +24,7 @@ public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView.Adapter mAdapter;
     ArrayList<Episode> episodeList;
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +34,14 @@ public class WatchList extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.watchlistRV);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
+        /* improved performance if size of the layout doesnt change */
         mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        LocalDate ld = LocalDate.now();
         episodeList = new ArrayList<>();
+        //TODO replace with dynamic method
+        LocalDate ld = LocalDate.now();
         episodeList.add(new Episode("Game of Thrones", 6, 9, ld));
         ld = ld.plusDays(1);
         episodeList.add(new Episode("Game of Thrones", 7, 2, ld));
@@ -65,7 +64,7 @@ public class WatchList extends AppCompatActivity
         ld = ld.plusDays(1);
         episodeList.add(new Episode("Shameless", 8, 1, ld));
 
-        mAdapter = new EpisodeRecycleAdapter(episodeList);
+        mAdapter = new EpisodeRecycleAdapter(getApplicationContext(), episodeList);
         mRecyclerView.setAdapter(mAdapter);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

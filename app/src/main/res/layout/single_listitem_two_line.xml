@@ -69,5 +69,5 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:checked="false"/>
+        android:checked="false" />
 </RelativeLayout>
