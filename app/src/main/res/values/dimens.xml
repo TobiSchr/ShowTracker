@@ -4,6 +4,10 @@
     <dimen name="nav_header_height">160dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">6dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Free space at the end of recycle view so the FAB doesnt cover the last row -->
+    <dimen name="rv_margin_bot">80dp</dimen>
+
 </resources>

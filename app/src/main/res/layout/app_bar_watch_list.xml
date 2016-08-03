@@ -28,13 +28,15 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:fadeScrollbars="true"
-        android:paddingBottom="100dp"
+        android:paddingBottom="@dimen/rv_margin_bot"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="tobis.showtracker.WatchList" />
+
+    <!-- android:paddingBottom="@dimen/recycleview_bot_margin" -->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -43,6 +45,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_dialog_email"
+        android:visibility="gone"
         app:layout_anchor="@id/watchlistRV"
         app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

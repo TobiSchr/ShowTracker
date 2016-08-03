@@ -24,7 +24,6 @@ public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView.Adapter mAdapter;
     ArrayList<Episode> episodeList;
-    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +63,16 @@ public class WatchList extends AppCompatActivity
         ld = ld.plusDays(1);
         episodeList.add(new Episode("Shameless", 8, 1, ld));
 
-        mAdapter = new EpisodeRecycleAdapter(getApplicationContext(), episodeList);
+        mAdapter = new EpisodeRecycleAdapter(episodeList);
         mRecyclerView.setAdapter(mAdapter);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        if(fab != null) {
+        if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //TODO
-                    fab.hide();
+
                 }
             });
         }
@@ -81,13 +80,13 @@ public class WatchList extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        if(drawer != null){
+        if (drawer != null) {
             drawer.addDrawerListener(toggle);
         }
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if(navigationView != null){
+        if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
     }
@@ -95,7 +94,7 @@ public class WatchList extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(drawer != null){
+        if (drawer != null) {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
@@ -119,7 +118,7 @@ public class WatchList extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_sort_by_name){
+        if (id == R.id.action_sort_by_name) {
             Comparator<Episode> comparator_name = new Comparator<Episode>() {
                 @Override
                 public int compare(Episode lhs, Episode rhs) {
@@ -137,7 +136,7 @@ public class WatchList extends AppCompatActivity
             return true;
         }
 
-        if (id == R.id.action_sort_by_date){
+        if (id == R.id.action_sort_by_date) {
 
             Comparator<Episode> comparator_date = new Comparator<Episode>() {
                 @Override
@@ -176,7 +175,7 @@ public class WatchList extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(drawer != null) {
+        if (drawer != null) {
             drawer.closeDrawer(GravityCompat.START);
         }
         return true;
