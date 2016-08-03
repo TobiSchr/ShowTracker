@@ -35,7 +35,7 @@ public class WatchList extends AppCompatActivity
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.watchlistRV);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -74,7 +74,7 @@ public class WatchList extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
                     //TODO
-                    fab.setVisibility(View.GONE);
+                    fab.hide();
                 }
             });
         }
