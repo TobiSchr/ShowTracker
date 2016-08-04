@@ -11,18 +11,21 @@ class Episode {
     private int seasonNumber;
     private int episodeNumber;
     private LocalDate date;
+    private boolean watchedStatus;
 
     /**
      * @param showName name of the show
      * @param seasonNumber  season number
      * @param episodeNumber episode number
      * @param date          airtime of the episode format "01.01.2017"
+     * @param watchedStatus status of the episode seen = true, unseen = false
      */
-    Episode(String showName, int seasonNumber, int episodeNumber, LocalDate date) {
+    Episode(String showName, int seasonNumber, int episodeNumber, LocalDate date, boolean watchedStatus) {
         this.showName = showName;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.date = date;
+        this.watchedStatus = watchedStatus;
     }
 
     String getShowName() {
@@ -47,6 +50,14 @@ class Episode {
 
     public void setDate(int day, int month, int year) {
         this.date = new LocalDate(year, month, day);
+    }
+
+    public boolean isWatchedStatus() {
+        return watchedStatus;
+    }
+
+    public void setWatchedStatus(boolean watchedStatus) {
+        this.watchedStatus = watchedStatus;
     }
 
     /**

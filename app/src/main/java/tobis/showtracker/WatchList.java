@@ -38,30 +38,33 @@ public class WatchList extends AppCompatActivity
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        //mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
+
         episodeList = new ArrayList<>();
         //TODO replace with dynamic method
         LocalDate ld = LocalDate.now();
-        episodeList.add(new Episode("Game of Thrones", 6, 9, ld));
+        episodeList.add(new Episode("Game of Thrones", 6, 9, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Game of Thrones", 7, 2, ld));
+        episodeList.add(new Episode("Game of Thrones", 7, 2, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Game of Thrones", 6, 10, ld));
+        episodeList.add(new Episode("Game of Thrones", 6, 10, ld, false));
         ld = ld.plusWeeks(1);
-        episodeList.add(new Episode("Game of Thrones", 6, 8, ld));
+        episodeList.add(new Episode("Game of Thrones", 6, 8, ld, false));
         ld = ld.plusWeeks(1);
-        episodeList.add(new Episode("Breaking Bad", 5, 10, ld));
+        episodeList.add(new Episode("Breaking Bad", 5, 10, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("House of Cards", 3, 1, ld));
+        episodeList.add(new Episode("House of Cards", 3, 1, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Grey's Anatomy", 13, 23, ld));
+        episodeList.add(new Episode("Grey's Anatomy", 13, 23, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("One Piece", 1, 388, ld));
+        episodeList.add(new Episode("One Piece", 1, 388, ld, false));
         ld = ld.plusWeeks(2);
-        episodeList.add(new Episode("One Piece", 1, 389, ld));
+        episodeList.add(new Episode("One Piece", 1, 389, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Game of Thrones", 7, 1, ld));
+        episodeList.add(new Episode("Game of Thrones", 7, 1, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Shameless", 8, 1, ld));
+        episodeList.add(new Episode("Shameless", 8, 1, ld, false));
 
         mAdapter = new EpisodeRecycleAdapter(episodeList);
         mRecyclerView.setAdapter(mAdapter);

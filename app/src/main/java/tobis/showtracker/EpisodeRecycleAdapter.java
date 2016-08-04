@@ -1,6 +1,5 @@
 package tobis.showtracker;
 
-import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -11,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -56,7 +54,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                                                    int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.single_listitem_two_line, parent, false);
+                .inflate(R.layout.listitem_row, parent, false);
         // set the view's size, margins, paddings and layout parameters
         return new ViewHolder(v);
     }
