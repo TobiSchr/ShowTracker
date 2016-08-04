@@ -3,8 +3,8 @@
     android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,20 +54,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/switch_watched"
-        android:layout_toStartOf="@+id/switch_watched"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:contentDescription="@string/image_unseen"
         android:clickable="true"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_eye_unseen_v2" />
-
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/switch_watched"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:checked="false" />
 </RelativeLayout>

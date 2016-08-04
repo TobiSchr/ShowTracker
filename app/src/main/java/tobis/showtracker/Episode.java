@@ -14,7 +14,7 @@ class Episode {
     private boolean watchedStatus;
 
     /**
-     * @param showName name of the show
+     * @param showName      name of the show
      * @param seasonNumber  season number
      * @param episodeNumber episode number
      * @param date          airtime of the episode format "01.01.2017"
@@ -64,7 +64,34 @@ class Episode {
      * @return returns Data in format "01.01.2016"
      */
     String getDateAsString() {
-        return date.toString("dd.MM.yy");
+        String dayOfWeek;
+        switch (date.getDayOfWeek()) {
+            case 1:
+                dayOfWeek = "(Mo)";
+                break;
+            case 2:
+                dayOfWeek = "(Di)";
+                break;
+            case 3:
+                dayOfWeek = "(Mi)";
+                break;
+            case 4:
+                dayOfWeek = "(Do)";
+                break;
+            case 5:
+                dayOfWeek = "(Fr)";
+                break;
+            case 6:
+                dayOfWeek = "(Sa)";
+                break;
+            case 7:
+                dayOfWeek = "(So)";
+                break;
+            default:
+                dayOfWeek = "error";
+                break;
+        }
+        return dayOfWeek + " " + date.toString("dd.MM.yy");
     }
 
     /**
