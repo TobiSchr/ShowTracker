@@ -6,6 +6,7 @@
 
     <string name="action_sort_by_name">Sort by Name</string>
     <string name="action_sort_by_date">Sort by Date</string>
+    <string name="action_unselect_all">Unselect All</string>
 
     <string name="image_unseen">Unseen</string>
 

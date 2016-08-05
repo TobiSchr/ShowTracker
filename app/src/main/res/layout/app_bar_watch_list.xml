@@ -29,8 +29,6 @@
         android:clipToPadding="false"
         android:fadeScrollbars="true"
         android:paddingBottom="@dimen/rv_margin_bot"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

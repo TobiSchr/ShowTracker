@@ -1,6 +1,9 @@
 package tobis.showtracker;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,11 +26,13 @@ import java.util.ArrayList;
 class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.ViewHolder> {
     private ArrayList<Episode> episodes = new ArrayList<>();
     private int counterOfActiveSwitches = 0;
+    private Context mContext;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    EpisodeRecycleAdapter(ArrayList<Episode> myDataset) {
+    EpisodeRecycleAdapter(Context context, ArrayList<Episode> myDataset) {
         super();
         this.episodes = myDataset;
+        mContext = context;
     }
 
     // Provide a reference to the views for each data item
@@ -36,7 +42,6 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
         // each data item is just a string in this case
         TextView textViewName, textViewNumbers, textViewDate;
         ImageView imageViewEye;
-        SwitchCompat switchCompatWatched;
 
         ViewHolder(View v) {
             super(v);
@@ -44,19 +49,68 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             textViewNumbers = (TextView)v.findViewById(R.id.seasonepisodenumbers);
             textViewDate = (TextView)v.findViewById(R.id.date);
             imageViewEye = (ImageView) v.findViewById(R.id.eye_image);
-            switchCompatWatched = (SwitchCompat)v.findViewById(R.id.switch_watched);
         }
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public EpisodeRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public EpisodeRecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.listitem_row, parent, false);
         // set the view's size, margins, paddings and layout parameters
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecyclerView mRecyclerView = (RecyclerView) view.getRootView().findViewById(R.id.watchlistRV);
+                int itemPosition = mRecyclerView.getChildLayoutPosition(view);
+                Episode item = episodes.get(itemPosition);
+                FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab);
+                ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image);
+
+                if (item.isWatchedStatus()) {
+                    //true => seen
+                    item.setWatchedStatus(false);
+                    eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
+                    counterOfActiveSwitches--;
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                    if (counterOfActiveSwitches <= 0 && fab.getVisibility() == View.VISIBLE) {
+                        fab.hide();
+                    }
+
+                } else {
+                    //false => unseen
+                    item.setWatchedStatus(true);
+                    eye_image.setImageResource(R.drawable.ic_eye_seen_v2);
+                    counterOfActiveSwitches++;
+                    view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorSelected));
+                    if (counterOfActiveSwitches > 0 && fab.getVisibility() != View.VISIBLE) {
+                        fab.show();
+                    }
+                }
+            }
+        });
         return new ViewHolder(v);
+    }
+
+    public void unselectAllItems(RecyclerView mRecyclerView) {
+        FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab);
+
+        for (int itemPos = 0; itemPos < getItemCount(); itemPos++) {
+            Episode item = episodes.get(itemPos);
+            if (item.isWatchedStatus()) {
+                //true => seen
+                View view = mRecyclerView.getChildAt(itemPos);
+                ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image);
+
+                //perform changes for unselected state
+                item.setWatchedStatus(false);
+                eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
+                counterOfActiveSwitches--;
+                view.setBackgroundColor(Color.TRANSPARENT);
+            }
+        }
+        fab.hide();
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -68,7 +122,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
         holder.textViewNumbers.setText(episodes.get(pos).getSeasonEpisodeAsString());
         holder.textViewDate.setText(episodes.get(pos).getDateAsString());
 
-        holder.imageViewEye.setOnClickListener(new View.OnClickListener() {
+        /*holder.imageViewEye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //click on image toggles the state of the switch
@@ -101,6 +155,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                 }
             }
         });
+        */
 
     }
 

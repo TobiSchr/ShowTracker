@@ -22,8 +22,9 @@ import java.util.Comparator;
 
 public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private RecyclerView.Adapter mAdapter;
-    ArrayList<Episode> episodeList;
+    private EpisodeRecycleAdapter mAdapter;
+    private ArrayList<Episode> episodeList;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class WatchList extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.watchlistRV);
+        mRecyclerView = (RecyclerView) findViewById(R.id.watchlistRV);
         /* improved performance if size of the layout doesnt change */
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -66,7 +67,7 @@ public class WatchList extends AppCompatActivity
         ld = ld.plusDays(1);
         episodeList.add(new Episode("Shameless", 8, 1, ld, false));
 
-        mAdapter = new EpisodeRecycleAdapter(episodeList);
+        mAdapter = new EpisodeRecycleAdapter(getApplicationContext(), episodeList);
         mRecyclerView.setAdapter(mAdapter);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -135,6 +136,7 @@ public class WatchList extends AppCompatActivity
                 }
             };
             Collections.sort(episodeList, comparator_name);
+            //TODO keep selection
             mAdapter.notifyDataSetChanged();
             return true;
         }
@@ -150,7 +152,13 @@ public class WatchList extends AppCompatActivity
                 }
             };
             Collections.sort(episodeList, comparator_date);
+            //TODO keep selection
             mAdapter.notifyDataSetChanged();
+            return true;
+        }
+
+        if (id == R.id.action_unselect_all) {
+            mAdapter.unselectAllItems(mRecyclerView);
             return true;
         }
 
