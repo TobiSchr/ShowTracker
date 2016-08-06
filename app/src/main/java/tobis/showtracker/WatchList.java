@@ -24,6 +24,7 @@ public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EpisodeRecycleAdapter mAdapter;
     private ArrayList<Episode> episodeList;
+    private ArrayList<Episode> markedWatchedList;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -75,8 +76,17 @@ public class WatchList extends AppCompatActivity
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO
+                    ArrayList<Episode> removeList = new ArrayList<>();
+                    for (Episode e : episodeList) {
+                        if (e.isWatchedStatus()) {
+                            removeList.add(e);
+                        }
+                    }
+                    episodeList.removeAll(removeList);
+                    mAdapter.notifyDataSetChanged();
+                    mAdapter.unselectAllItems(mRecyclerView);
 
+                    //TODO
                 }
             });
         }
