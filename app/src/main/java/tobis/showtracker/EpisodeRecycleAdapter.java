@@ -24,6 +24,10 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
     private int counterOfActiveSwitches = 0;
     private Context mContext;
 
+    public int getCounterOfActiveSwitches() {
+        return counterOfActiveSwitches;
+    }
+
     // Provide a suitable constructor (depends on the kind of dataset)
     EpisodeRecycleAdapter(Context context, ArrayList<Episode> myDataset) {
         super();
