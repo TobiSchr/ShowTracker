@@ -6,6 +6,16 @@
 
     <string name="action_sort_by_name">Sort by Name</string>
     <string name="action_sort_by_date">Sort by Date</string>
+    <string name="action_unselect_all">Unselect All</string>
 
     <string name="image_unseen">Unseen</string>
+
+    <!-- days -->
+    <string name="monday">(Mon)</string>
+    <string name="tuesday">(Tue)</string>
+    <string name="wednesday">(Wed)</string>
+    <string name="thursday">(Thu)</string>
+    <string name="friday">(Fri)</string>
+    <string name="saturday">(Sat)</string>
+    <string name="sunday">(Sun)</string>
 </resources>

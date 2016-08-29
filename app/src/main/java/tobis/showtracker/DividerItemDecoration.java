@@ -18,6 +18,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
     private Drawable mDivider;
+    private int side_margin;
 
     /**
      * Default divider will be used
@@ -26,6 +27,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         mDivider = styledAttributes.getDrawable(0);
         styledAttributes.recycle();
+        side_margin = context.getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
     }
 
     /**
@@ -33,12 +35,13 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
      */
     public DividerItemDecoration(Context context, int resId) {
         mDivider = ContextCompat.getDrawable(context, resId);
+        side_margin = context.getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
     }
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        int left = parent.getPaddingLeft();
-        int right = parent.getWidth() - parent.getPaddingRight();
+        int left = parent.getPaddingLeft() + side_margin;
+        int right = parent.getWidth() - parent.getPaddingRight() - side_margin;
 
         int childCount = parent.getChildCount() - 1; //-1 -> no divider below the last item
         for (int i = 0; i < childCount; i++) {

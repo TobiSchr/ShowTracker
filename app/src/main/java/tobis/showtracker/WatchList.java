@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,8 +23,10 @@ import java.util.Comparator;
 
 public class WatchList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private RecyclerView.Adapter mAdapter;
-    ArrayList<Episode> episodeList;
+    private EpisodeRecycleAdapter mAdapter;
+    private ArrayList<Episode> watchList;
+    private ArrayList<Episode> markedWatchedList;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,50 +35,81 @@ public class WatchList extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.watchlistRV);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.watchlistRV);
         /* improved performance if size of the layout doesnt change */
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
 
-        episodeList = new ArrayList<>();
+        mRecyclerView.
+                addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView,
+                                           int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+
+                        if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_IDLE //scrolling
+                                && dy > 0) { //scrolling down
+                            fab.hide();
+                        } else {
+                            //scroll up
+                            if (mAdapter.getCounterOfActiveSwitches() > 0) { //1+ selected item(s)
+                                fab.show();
+                            }
+                        }
+                    }
+                });
+
+        watchList = new ArrayList<>();
         //TODO replace with dynamic method
         LocalDate ld = LocalDate.now();
-        episodeList.add(new Episode("Game of Thrones", 6, 9, ld, false));
+        watchList.add(new Episode("Game of Thrones", 6, 9, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Game of Thrones", 7, 2, ld, false));
+        watchList.add(new Episode("Game of Thrones", 7, 2, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Game of Thrones", 6, 10, ld, false));
+        watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
         ld = ld.plusWeeks(1);
-        episodeList.add(new Episode("Game of Thrones", 6, 8, ld, false));
+        watchList.add(new Episode("Game of Thrones", 6, 8, ld, false));
         ld = ld.plusWeeks(1);
-        episodeList.add(new Episode("Breaking Bad", 5, 10, ld, false));
+        watchList.add(new Episode("Breaking Bad", 5, 10, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("House of Cards", 3, 1, ld, false));
+        watchList.add(new Episode("House of Cards", 3, 1, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Grey's Anatomy", 13, 23, ld, false));
+        watchList.add(new Episode("Grey's Anatomy", 13, 23, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("One Piece", 1, 388, ld, false));
+        watchList.add(new Episode("One Piece", 1, 388, ld, false));
         ld = ld.plusWeeks(2);
-        episodeList.add(new Episode("One Piece", 1, 389, ld, false));
+        watchList.add(new Episode("One Piece", 1, 389, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Game of Thrones", 7, 1, ld, false));
+        watchList.add(new Episode("Game of Thrones", 7, 1, ld, false));
         ld = ld.plusDays(1);
-        episodeList.add(new Episode("Shameless", 8, 1, ld, false));
+        watchList.add(new Episode("Shameless", 8, 1, ld, false));
 
-        mAdapter = new EpisodeRecycleAdapter(episodeList);
+        mAdapter = new EpisodeRecycleAdapter(getApplicationContext(), watchList);
         mRecyclerView.setAdapter(mAdapter);
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ArrayList<Episode> moveList = new ArrayList<>();
+                    for (Episode watchListEpisode : watchList) {
+                        if (watchListEpisode.isWatchedStatus()) {
+                            //save all marked as watched episodes into moveList
+                            moveList.add(watchListEpisode);
+                        }
+                    }
+                    ArrayList<Episode> alreadySeenList = new ArrayList<>(); //TODO move to proper place
+                    //move all episodes of moveList to alreadySeen and remove from watchList
+                    //alreadySeenList.addAll(moveList); //crashes the app
+                    mAdapter.unselectAllItems(mRecyclerView);
+                    watchList.removeAll(moveList);
+                    mAdapter.notifyDataSetChanged();
                     //TODO
-
                 }
             });
         }
@@ -134,7 +168,8 @@ public class WatchList extends AppCompatActivity
                     return compare_score; //NNSSEEE NamedifSeasondifEpisodedif
                 }
             };
-            Collections.sort(episodeList, comparator_name);
+            Collections.sort(watchList, comparator_name);
+            //TODO keep selection
             mAdapter.notifyDataSetChanged();
             return true;
         }
@@ -149,8 +184,14 @@ public class WatchList extends AppCompatActivity
                     return compare_score;
                 }
             };
-            Collections.sort(episodeList, comparator_date);
+            Collections.sort(watchList, comparator_date);
+            //TODO keep selection
             mAdapter.notifyDataSetChanged();
+            return true;
+        }
+
+        if (id == R.id.action_unselect_all) {
+            mAdapter.unselectAllItems(mRecyclerView);
             return true;
         }
 
