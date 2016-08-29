@@ -64,13 +64,14 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             public void onClick(View view) {
                 RecyclerView mRecyclerView = (RecyclerView) view.getRootView().findViewById(R.id.watchlistRV);
                 int itemPosition = mRecyclerView.getChildLayoutPosition(view);
-                Episode item = episodes.get(itemPosition);
+                Episode episodeItem = episodes.get(itemPosition);
                 FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab);
                 ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image);
 
-                if (item.isWatchedStatus()) {
+                if (episodeItem.isWatchedStatus()) {
                     //true => seen
-                    item.setWatchedStatus(false);
+                    //true => seen
+                    episodeItem.setWatchedStatus(false);
                     eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
                     counterOfActiveSwitches--;
                     view.setBackgroundColor(Color.TRANSPARENT);
@@ -80,7 +81,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
 
                 } else {
                     //false => unseen
-                    item.setWatchedStatus(true);
+                    episodeItem.setWatchedStatus(true);
                     eye_image.setImageResource(R.drawable.ic_eye_seen_v2);
                     counterOfActiveSwitches++;
                     view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorSelected));
@@ -93,6 +94,12 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
         return new ViewHolder(v);
     }
 
+    /**
+     * unselects all items of mRecyclerView
+     * unselect means remove background color,
+     *
+     * @param mRecyclerView in which recyclerview the items shall be unselected
+     */
     public void unselectAllItems(RecyclerView mRecyclerView) {
         FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab);
 
@@ -121,42 +128,6 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
         holder.textViewName.setText(episodes.get(pos).getShowName());
         holder.textViewNumbers.setText(episodes.get(pos).getSeasonEpisodeAsString());
         holder.textViewDate.setText(episodes.get(pos).getDateAsString());
-
-        /*holder.imageViewEye.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //click on image toggles the state of the switch
-                //switch state change listener will change the image
-                RelativeLayout itemlayout = (RelativeLayout) v.getParent();
-                ((SwitchCompat) itemlayout.findViewById(R.id.switch_watched)).toggle();
-            }
-        });
-
-        holder.switchCompatWatched.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                RelativeLayout item_layout = (RelativeLayout)buttonView.getParent();
-                ImageView eye_image = (ImageView) item_layout.findViewById(R.id.eye_image);
-                FloatingActionButton fab = (FloatingActionButton) item_layout.getRootView().findViewById(R.id.fab);
-                if(isChecked){
-                    //seen
-                    eye_image.setImageResource(R.drawable.ic_eye_seen_v2);
-                    counterOfActiveSwitches++;
-                    if (counterOfActiveSwitches > 0 && fab.getVisibility() != View.VISIBLE) {
-                        fab.show();
-                    }
-                }else{
-                    //unseen
-                    eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
-                    counterOfActiveSwitches--;
-                    if (counterOfActiveSwitches <= 0 && fab.getVisibility() == View.VISIBLE) {
-                        fab.hide();
-                    }
-                }
-            }
-        });
-        */
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

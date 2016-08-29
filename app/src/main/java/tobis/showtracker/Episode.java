@@ -91,7 +91,7 @@ class Episode {
                 dayOfWeek = "error";
                 break;
         }
-        return date.toString("dd.MM.yy") + " " + dayOfWeek;
+        return dayOfWeek + "\t" + date.toString("dd.MM.yy");
     }
 
     /**
