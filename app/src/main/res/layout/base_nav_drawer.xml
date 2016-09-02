@@ -8,18 +8,20 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+    <!-- main content view: the normal activity -->
     <include
-        layout="@layout/app_bar_watch_list"
+        layout="@layout/watch_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- drawer view: whats seen on the navigation drawer -->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_watch_list"
-        app:menu="@menu/activity_watch_list_drawer" />
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu" />
 
 </android.support.v4.widget.DrawerLayout>
