@@ -1,3 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="6d7d803871e3203465f71a163e7af104f807b446">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.1.1_e39e70498b84f52951f7d004002907a782c44e5d\classes.dex" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\design\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e195bd694d5389acfba27ff4fdfa64c4c65b2c05">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.1.1_27db337b625f167637fea1e393c7262950c9d7d3\classes.dex" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\libs\internal_impl-24.1.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f78c2f395cb096f9dc1dc07e729922b8fcd3c4f5">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.1.1_a9d3b2b3253a2f0a372406bbc06a2d0188872d8e\classes.dex" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f62e763609f65e47dc6c498760a4accf02776788">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.1.1_a1070c7f8cb65ad0755cc5877b22e9b486c0f29b\classes.dex" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4cdaf186ccd20c893b50e1c705183bc04560e3d5">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_5c79cc71eeb1ed2e48d9572d99f4809ef0ba1b6d\classes.dex" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c936c1bd42f0c018c18920c7bec619ef056b24f8">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.1.1_5db113e65301ff59a73637fe308df4a50a48a07c\classes.dex" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1256c10604bb098490eab070d76754ac5ceab35c">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.1.1_64e767515506a89ee21d5beb7cfc39b0bc2aba47\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\TobiX\.gradle\caches\modules-2\files-2.1\com.android.support\support-annotations\24.1.1\3af19f153122737b372622fa6c81dd11a1c6b999\support-annotations-24.1.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3af19f153122737b372622fa6c81dd11a1c6b999">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.1.1_d953e603e8e3ef8388c1b582d9ab65d814aea082\classes.dex" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="787871951412550519b0222aba3c9df4cea49875">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.1.1_e911dfa401778167caed1dc550b48499c72c5b7f\classes.dex" />
+    </item>
+    <item
+        jar="G:\Code\ShowTracker\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="96aceec0e1c08628077e77c39d782af934cc7ad4">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_b04119c928cf4e3923de2bb79b91591e5466ea2c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\TobiX\.gradle\caches\modules-2\files-2.1\joda-time\joda-time\2.9.4\1c295b462f16702ebe720bbb08f62e1ba80da41b\joda-time-2.9.4.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1c295b462f16702ebe720bbb08f62e1ba80da41b">
+        <dex dex="G:\Code\ShowTracker\app\build\intermediates\transforms\dex\debug\folders\1000\10\joda-time-2.9.4_f1b0fa9ad4514b3bf93ff4b635085b9b766dafc0\classes.dex" />
+    </item>
+
+</items>

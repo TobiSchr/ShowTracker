@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class WatchListActivity extends BaseActivity {
+public class WatchListActivity extends old_BaseActivity { //TODO Fragment
     private EpisodeRecycleAdapter mAdapter;
     private ArrayList<Episode> watchList;
     private ArrayList<Episode> markedWatchedList;
@@ -110,7 +110,7 @@ public class WatchListActivity extends BaseActivity {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
         if (drawer != null) {
             drawer.addDrawerListener(toggle);
         }
