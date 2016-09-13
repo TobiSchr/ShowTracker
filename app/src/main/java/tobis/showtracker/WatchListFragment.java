@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import org.joda.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.zip.Inflater;
 
 public class WatchListFragment extends Fragment {
     private EpisodeRecycleAdapter mAdapter;
@@ -29,6 +31,12 @@ public class WatchListFragment extends Fragment {
     private ArrayList<Episode> markedWatchedList;
     private RecyclerView mRecyclerView;
     private Context context;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -117,6 +125,12 @@ public class WatchListFragment extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Add your menu entries here
+        inflater.inflate(R.menu.watchlist_options, menu);
     }
 
     @Override
