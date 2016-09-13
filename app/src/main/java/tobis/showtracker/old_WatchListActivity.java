@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class WatchListActivity extends old_BaseActivity { //TODO Fragment
+public class old_WatchListActivity extends old_BaseActivity { //TODO Fragment
     private EpisodeRecycleAdapter mAdapter;
     private ArrayList<Episode> watchList;
     private ArrayList<Episode> markedWatchedList;

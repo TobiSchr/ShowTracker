@@ -44,11 +44,11 @@ public class old_BaseActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_watchlist) {
-            Intent intent = new Intent(this, WatchListActivity.class);
+            Intent intent = new Intent(this, old_WatchListActivity.class);
             startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.nav_addnew) {
-            Intent intent = new Intent(this, AddNewShowActivity.class);
+            Intent intent = new Intent(this, AddNewShowFragment.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_link) {

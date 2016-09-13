@@ -6,7 +6,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +15,7 @@ import android.view.MenuItem;
 
 /**
  * Created by TobiX on 04.09.2016.
+ * Main View which has the nav drawer and a placeholder for fragment
  */
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = WatchListFragment.class;
                 break;
             case R.id.nav_addnew:
-                fragmentClass = AddNewShowActivity.class;
+                fragmentClass = AddNewShowFragment.class;
                 break;
             case R.id.nav_link:
                 fragmentClass = WatchListFragment.class;

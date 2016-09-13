@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 /**
  * Created by TobiX on 04.09.2016.
  */
-public class AddNewShowActivity extends Fragment {
+public class AddNewShowFragment extends Fragment {
     //https://github.com/codepath/android_guides/wiki/Fragment-Navigation-Drawer
     @Nullable
     @Override
