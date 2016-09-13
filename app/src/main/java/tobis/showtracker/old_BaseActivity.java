@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 /**
  * Created by TobiX on 03.09.2016.
+ * outdated
  */
 
 public class old_BaseActivity extends AppCompatActivity

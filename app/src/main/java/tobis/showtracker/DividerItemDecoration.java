@@ -11,7 +11,7 @@ import android.view.View;
 /**
  * Created by TobiX on 04.08.2016.
  *
- * used to add a divider, defined in TODO, between recycleview items
+ * used to add a divider, defined in TODO, between recycle view items
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
