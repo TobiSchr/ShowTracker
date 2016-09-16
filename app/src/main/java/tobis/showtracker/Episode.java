@@ -52,6 +52,17 @@ class Episode {
         this.date = new LocalDate(year, month, day);
     }
 
+    /**
+     * @param date expects string in format "dd-mm-yyyy"
+     */
+    public void setDate(String date) {
+        String[] parts = date.split("-");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+        this.date = new LocalDate(day, month, year);
+    }
+
     public boolean isWatchedStatus() {
         return watchedStatus;
     }
@@ -61,9 +72,11 @@ class Episode {
     }
 
     /**
-     * @return returns Data in format "01.01.2016"
+     * @return returns Data in format "(Day)    dd.mm.yyyy"
      */
     String getDateAsString() {
+        if (date == null)
+            return "";
         String dayOfWeek;
         switch (date.getDayOfWeek()) {
             case 1:
