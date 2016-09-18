@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 
 import org.joda.time.LocalDate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class WatchListFragment extends Fragment {
     private EpisodeRecycleAdapter mAdapter;
@@ -26,6 +28,7 @@ public class WatchListFragment extends Fragment {
     private ArrayList<Episode> markedWatchedList;
     private RecyclerView mRecyclerView;
     private Context context;
+    EpisodeJSON ejson;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +72,9 @@ public class WatchListFragment extends Fragment {
                     }
                 });
 
+        ejson = new EpisodeJSON(context);
+        watchList = ejson.readFromFile();
+
         watchList = new ArrayList<>();
         //TODO replace with dynamic method
         LocalDate ld = LocalDate.now();
@@ -76,6 +82,9 @@ public class WatchListFragment extends Fragment {
         ld = ld.plusDays(1);
         watchList.add(new Episode("Game of Thrones", 7, 2, ld, false));
         ld = ld.plusDays(1);
+        watchList.add(new Episode("Hodentorsion", 7, 2, ld, false));
+        ld = ld.plusDays(1);
+        /*
         watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
         ld = ld.plusWeeks(1);
         watchList.add(new Episode("Game of Thrones", 6, 8, ld, false));
@@ -93,6 +102,7 @@ public class WatchListFragment extends Fragment {
         watchList.add(new Episode("Game of Thrones", 7, 1, ld, false));
         ld = ld.plusDays(1);
         watchList.add(new Episode("Shameless", 8, 1, ld, false));
+        */
 
         mAdapter = new EpisodeRecycleAdapter(context, watchList);
         mRecyclerView.setAdapter(mAdapter);
@@ -114,6 +124,12 @@ public class WatchListFragment extends Fragment {
                     mAdapter.unselectAllItems(mRecyclerView);
                     watchList.removeAll(moveList);
                     mAdapter.notifyDataSetChanged();
+
+                    try {
+                        ejson.writeJsonStream(watchList);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     //TODO
                 }
             });
