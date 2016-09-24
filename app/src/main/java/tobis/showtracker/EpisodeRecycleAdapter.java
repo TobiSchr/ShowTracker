@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TobiS on 02.08.2016.
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  */
 
 class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.ViewHolder> {
-    private ArrayList<Episode> episodes = new ArrayList<>();
+    private List<Episode> episodes = new ArrayList<>();
     private int counterOfActiveSwitches = 0;
     private Context mContext;
 
@@ -29,7 +30,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    EpisodeRecycleAdapter(Context context, ArrayList<Episode> myDataset) {
+    EpisodeRecycleAdapter(Context context, List<Episode> myDataset) {
         super();
         this.episodes = myDataset;
         mContext = context;

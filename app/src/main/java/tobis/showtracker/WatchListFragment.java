@@ -24,8 +24,8 @@ import java.util.List;
 
 public class WatchListFragment extends Fragment {
     private EpisodeRecycleAdapter mAdapter;
-    private ArrayList<Episode> watchList;
-    private ArrayList<Episode> markedWatchedList;
+    private List<Episode> watchList;
+    private List<Episode> markedWatchedList;
     private RecyclerView mRecyclerView;
     private Context context;
     EpisodeJSON ejson;
@@ -74,36 +74,36 @@ public class WatchListFragment extends Fragment {
 
         ejson = new EpisodeJSON(context);
         watchList = ejson.readFromFile();
-
-        watchList = new ArrayList<>();
-        //TODO replace with dynamic method
-        LocalDate ld = LocalDate.now();
-        watchList.add(new Episode("Game of Thrones", 6, 9, ld, false));
-        ld = ld.plusDays(1);
-        watchList.add(new Episode("Game of Thrones", 7, 2, ld, false));
-        ld = ld.plusDays(1);
-        watchList.add(new Episode("Hodentorsion", 7, 2, ld, false));
-        ld = ld.plusDays(1);
-        /*
-        watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
-        ld = ld.plusWeeks(1);
-        watchList.add(new Episode("Game of Thrones", 6, 8, ld, false));
-        ld = ld.plusWeeks(1);
-        watchList.add(new Episode("Breaking Bad", 5, 10, ld, false));
-        ld = ld.plusDays(1);
-        watchList.add(new Episode("House of Cards", 3, 1, ld, false));
-        ld = ld.plusDays(1);
-        watchList.add(new Episode("Grey's Anatomy", 13, 23, ld, false));
-        ld = ld.plusDays(1);
-        watchList.add(new Episode("One Piece", 1, 388, ld, false));
-        ld = ld.plusWeeks(2);
-        watchList.add(new Episode("One Piece", 1, 389, ld, false));
-        ld = ld.plusDays(1);
-        watchList.add(new Episode("Game of Thrones", 7, 1, ld, false));
-        ld = ld.plusDays(1);
-        watchList.add(new Episode("Shameless", 8, 1, ld, false));
-        */
-
+        if (watchList == null) {
+            watchList = new ArrayList<>();
+            //TODO replace with dynamic method
+            LocalDate ld = LocalDate.now();
+            watchList.add(new Episode("Game of Thrones", 6, 9, ld, false));
+            ld = ld.plusDays(1);
+            watchList.add(new Episode("Game of Thrones", 7, 2, ld, false));
+            ld = ld.plusDays(1);
+            watchList.add(new Episode("Hodentorsion", 7, 2, ld, false));
+            ld = ld.plusDays(1);
+            /*
+            watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
+            ld = ld.plusWeeks(1);
+            watchList.add(new Episode("Game of Thrones", 6, 8, ld, false));
+            ld = ld.plusWeeks(1);
+            watchList.add(new Episode("Breaking Bad", 5, 10, ld, false));
+            ld = ld.plusDays(1);
+            watchList.add(new Episode("House of Cards", 3, 1, ld, false));
+            ld = ld.plusDays(1);
+            watchList.add(new Episode("Grey's Anatomy", 13, 23, ld, false));
+            ld = ld.plusDays(1);
+            watchList.add(new Episode("One Piece", 1, 388, ld, false));
+            ld = ld.plusWeeks(2);
+            watchList.add(new Episode("One Piece", 1, 389, ld, false));
+            ld = ld.plusDays(1);
+            watchList.add(new Episode("Game of Thrones", 7, 1, ld, false));
+            ld = ld.plusDays(1);
+            watchList.add(new Episode("Shameless", 8, 1, ld, false));
+            */
+        }
         mAdapter = new EpisodeRecycleAdapter(context, watchList);
         mRecyclerView.setAdapter(mAdapter);
 

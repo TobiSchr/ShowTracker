@@ -1,36 +1,51 @@
 package tobis.showtracker;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.JsonReader;
 import android.util.JsonWriter;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import org.joda.time.LocalDate;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by TobiX on 16.09.2016.
- * <p>
+ *
  * Read and Write to JSON
  */
 public class EpisodeJSON {
     Context context;
+    public static final Type LOCAL_DATE_TYPE = new TypeToken<LocalDate>() {
+    }.getType();
 
     EpisodeJSON(Context context) {
         this.context = context;
+    }
+
+    private Gson createGsonBuilder() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(LOCAL_DATE_TYPE, new LocalDateConverter());
+        return builder.create();
     }
 
     public void writeToFile(String data) {
@@ -43,8 +58,28 @@ public class EpisodeJSON {
         }
     }
 
-    private void writeJsonStream(List<Episode> episodes) throws IOException {
-        OutputStream out;
+    public void writeJsonStream(List<Episode> episodes) throws IOException {
+
+        for (Episode e : episodes) {
+            Log.i("writeE", e.toString());
+        }
+
+        String filename = "shows.save";
+
+        String s = createGsonBuilder().toJson(episodes);
+        Log.i("writerJSON", s);
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(s.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //----------------------------------------------------
+        /*OutputStream out;
         out = context.openFileOutput("shows.save", Context.MODE_PRIVATE);
         //public void writeJsonStream(OutputStream out, List<Episode> episodes) throws IOException {
         JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));
@@ -52,7 +87,8 @@ public class EpisodeJSON {
         writeEpisodesArray(writer, episodes);
         Log.i("writer_before_close", writer.toString());
         writer.close();
-        //Log.i("writer_after_close",writer.toString());
+        Log.i("writer_after_close",writer.toString());
+        */
     }
 
     private void writeEpisodesArray(JsonWriter writer, List<Episode> episodes) throws IOException {
@@ -70,13 +106,14 @@ public class EpisodeJSON {
         writer.name("episodeNumber").value(episode.getEpisodeNumber());
         writer.name("date").value(episode.getDate().toString("dd-MM-yyyy"));
         writer.name("watchedStatus").value(episode.isWatchedStatus());
+        Log.i("writer_in_episode", writer.toString());
         writer.endObject();
+        Log.i("writer_after_episode", writer.toString());
     }
 
     /*-READ-------------------------------------------------------------------------------------*/
 
     public List<Episode> readFromFile() {
-
         //String ret = "";
         List<Episode> retList = null;
 
@@ -84,6 +121,24 @@ public class EpisodeJSON {
             InputStream inputStream = context.openFileInput("shows.save");
 
             if (inputStream != null) {
+                InputStreamReader isr = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(isr);
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                String json = sb.toString();
+                Log.i("readerJSON", json);
+                Type token = new TypeToken<List<Episode>>() {
+                }.getType();
+
+                retList = createGsonBuilder().fromJson(json, token);
+
+                for (Episode e : retList) {
+                    Log.i("readE", e.toString());
+                }
                 /*
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -94,7 +149,7 @@ public class EpisodeJSON {
                     stringBuilder.append(receiveString);
                 }
                 */
-                retList = readJsonStream(inputStream);
+                //retList = readJsonStream(inputStream);
                 //inputStream.close();
                 //ret = stringBuilder.toString();
             }

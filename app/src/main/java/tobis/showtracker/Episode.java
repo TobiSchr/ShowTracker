@@ -115,4 +115,15 @@ class Episode {
         //        + "-E" + String.format("%03d", episodeNumber);
         return "S" + seasonNumber + "-E" + episodeNumber;
     }
+
+    @Override
+    public String toString() {
+        String ret = "";
+        ret += showName + "(";
+        ret += getSeasonEpisodeAsString();
+        ret += " [" + getDateAsString() + "]";
+        ret += ", seen:" + String.valueOf(watchedStatus);
+        ret += ")";
+        return ret;
+    }
 }
