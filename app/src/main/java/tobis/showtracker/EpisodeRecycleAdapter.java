@@ -66,7 +66,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                 RecyclerView mRecyclerView = (RecyclerView) view.getRootView().findViewById(R.id.watchlistRV);
                 int itemPosition = mRecyclerView.getChildLayoutPosition(view);
                 Episode episodeItem = episodes.get(itemPosition);
-                FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab);
+                FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab_save);
                 ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image);
 
                 if (episodeItem.isWatchedStatus()) {
@@ -102,7 +102,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
      * @param mRecyclerView in which recyclerview the items shall be unselected
      */
     public void unselectAllItems(RecyclerView mRecyclerView) {
-        FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab_save);
 
         for (int itemPos = 0; itemPos < getItemCount(); itemPos++) {
             Episode item = episodes.get(itemPos);

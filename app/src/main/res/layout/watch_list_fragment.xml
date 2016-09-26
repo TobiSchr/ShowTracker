@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".old_WatchListActivity">
+    tools:context=".WatchListFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/watchlistRV"
@@ -16,19 +16,17 @@
         android:paddingBottom="@dimen/rv_margin_bot"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".old_WatchListActivity" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <!-- android:paddingBottom="@dimen/recycleview_bot_margin" -->
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_dialog_email"
         android:visibility="gone"
-        app:layout_anchor="@id/watchlistRV"
         app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

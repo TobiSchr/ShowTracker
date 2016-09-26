@@ -53,7 +53,7 @@ class Episode {
     }
 
     /**
-     * @param date expects string in format "dd-mm-yyyy"
+     * @param date expects string in format "dd-MM-yyyy"
      */
     public void setDate(String date) {
         String[] parts = date.split("-");

@@ -43,7 +43,7 @@ public class WatchListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.watch_list_fragment, container, false);
         context = view.getContext();
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_save);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.watchlistRV);
         /* improved performance if size of the layout doesnt change */
@@ -84,7 +84,6 @@ public class WatchListFragment extends Fragment {
             ld = ld.plusDays(1);
             watchList.add(new Episode("Hodentorsion", 7, 2, ld, false));
             ld = ld.plusDays(1);
-            /*
             watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
             ld = ld.plusWeeks(1);
             watchList.add(new Episode("Game of Thrones", 6, 8, ld, false));
@@ -102,7 +101,6 @@ public class WatchListFragment extends Fragment {
             watchList.add(new Episode("Game of Thrones", 7, 1, ld, false));
             ld = ld.plusDays(1);
             watchList.add(new Episode("Shameless", 8, 1, ld, false));
-            */
         }
         mAdapter = new EpisodeRecycleAdapter(context, watchList);
         mRecyclerView.setAdapter(mAdapter);
@@ -126,7 +124,7 @@ public class WatchListFragment extends Fragment {
                     mAdapter.notifyDataSetChanged();
 
                     try {
-                        ejson.writeJsonStream(watchList);
+                        ejson.writeToFile(watchList);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
