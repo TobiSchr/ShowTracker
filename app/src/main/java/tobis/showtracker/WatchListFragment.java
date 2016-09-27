@@ -43,7 +43,7 @@ public class WatchListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.watch_list_fragment, container, false);
         context = view.getContext();
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_save);
+        final FloatingActionButton fab_save = (FloatingActionButton) view.findViewById(R.id.fab_save);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.watchlistRV);
         /* improved performance if size of the layout doesnt change */
@@ -62,11 +62,11 @@ public class WatchListFragment extends Fragment {
 
                         if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_IDLE //scrolling
                                 && dy > 0) { //scrolling down
-                            fab.hide();
+                            fab_save.hide();
                         } else {
                             //scroll up
                             if (mAdapter.getCounterOfActiveSwitches() > 0) { //1+ selected item(s)
-                                fab.show();
+                                fab_save.show();
                             }
                         }
                     }
@@ -76,7 +76,6 @@ public class WatchListFragment extends Fragment {
         watchList = ejson.readFromFile();
         if (watchList == null) {
             watchList = new ArrayList<>();
-            //TODO replace with dynamic method
             LocalDate ld = LocalDate.now();
             watchList.add(new Episode("Game of Thrones", 6, 9, ld, false));
             ld = ld.plusDays(1);
@@ -105,8 +104,8 @@ public class WatchListFragment extends Fragment {
         mAdapter = new EpisodeRecycleAdapter(context, watchList);
         mRecyclerView.setAdapter(mAdapter);
 
-        if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
+        if (fab_save != null) {
+            fab_save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ArrayList<Episode> moveList = new ArrayList<>();

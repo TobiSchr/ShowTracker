@@ -13,6 +13,14 @@ class Episode {
     private LocalDate date;
     private boolean watchedStatus;
 
+    Episode() {
+        this.showName = null;
+        this.seasonNumber = 0;
+        this.episodeNumber = 0;
+        this.date = null;
+        this.watchedStatus = false;
+    }
+
     /**
      * @param showName      name of the show
      * @param seasonNumber  season number
