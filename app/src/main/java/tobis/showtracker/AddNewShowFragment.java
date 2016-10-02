@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,13 +28,14 @@ import org.joda.time.LocalDate;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TobiX on 04.09.2016.
  * outdated
  */
 public class AddNewShowFragment extends Fragment {
-    private static LocalDate date;
+    private static LocalDate startDate;
     private Context context;
     //views which need to be filled
     private EditText etTitle;
@@ -86,31 +88,45 @@ public class AddNewShowFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     //TODO check if all is set
-                    String showName = etTitle.getText().toString();
+                    String showName = etTitle.getText().toString().trim();
                     String seasonNumberStr = etSeasonNumber.getText().toString();
                     String intervalStr = etInterval.getText().toString();
                     String episodeNumbersStr = etEpisodeNumbers.getText().toString();
 
+                    //check if all fields are filled
                     if (showName.equals("") || seasonNumberStr.equals("")
                             || tvStartDate.getText().equals("")
                             || intervalStr.equals("") || episodeNumbersStr.equals("")) {
 
-                        Log.i("test3", "something clear");
                         String text = "Please fill in all fields";
                         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.i("test4", "everything filled");
-                        int seasonNum = Integer.getInteger(seasonNumberStr);
-                        int interval = Integer.getInteger(intervalStr);
-                        int episodeNumbers = Integer.getInteger(episodeNumbersStr);
-
-                        Episode episode;
-                        for (int i = 1; i <= episodeNumbers; i++) {
-                            episode = new Episode(showName, seasonNum, i, date, false);
-                            date.plusDays(interval);
-                            //TODO put episode in intent and switch back to watchlist/showoverview
-                        }
+                        //fields must be filled to continue
+                        return;
                     }
+
+                    int seasonNum = Integer.getInteger(seasonNumberStr);
+                    int interval = Integer.getInteger(intervalStr);
+                    int episodeNumbers = Integer.getInteger(episodeNumbersStr);
+                    //startDate is already set in DatePickerFragment
+
+                    if (episodeNumbers == 0) {
+                        String text = "Number of Episodes must be greater 0";
+                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                        //episodeNumbers must be greater 0 to continue
+                        return;
+                    }
+
+                    Episode epArray[] = new Episode[episodeNumbers];
+                    for (int i = 0; i < episodeNumbers; i++) {
+                        epArray[i] = new Episode(showName, seasonNum, i + 1, startDate, false);
+                        startDate.plusDays(interval);
+                    }
+                    //TODO put episode in intent and switch back to watchlist/showoverview
+
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.putExtra("owner", 1);
+                    intent.putExtra("episodes", epArray);
+                    startActivity(intent);
                 }
             });
         }
@@ -149,7 +165,7 @@ public class AddNewShowFragment extends Fragment {
             // Use the current date as the default date in the picker
             LocalDate today = new LocalDate();
             int year = today.getYear();
-            int month = today.getMonthOfYear();
+            int month = today.getMonthOfYear() - 1;
             int day = today.getDayOfMonth();
 
             // Create a new instance of DatePickerDialog and return it
@@ -159,10 +175,10 @@ public class AddNewShowFragment extends Fragment {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             Log.i("month", String.valueOf(month));
-            date = new LocalDate(year, month + 1, day);
+            startDate = new LocalDate(year, month + 1, day);
 
             String dayOfWeek;
-            switch (date.getDayOfWeek()) {
+            switch (startDate.getDayOfWeek()) {
                 case 1:
                     dayOfWeek = "(Mo)";
                     break;
@@ -188,7 +204,7 @@ public class AddNewShowFragment extends Fragment {
                     dayOfWeek = "error";
                     break;
             }
-            dayOfWeek += "\t" + date.toString("dd.MM.yy");
+            dayOfWeek += "\t" + startDate.toString("dd.MM.yy");
             tvStartDate.setText(dayOfWeek);
         }
     }
