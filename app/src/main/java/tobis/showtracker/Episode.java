@@ -68,7 +68,7 @@ class Episode {
         int day = Integer.parseInt(parts[0]);
         int month = Integer.parseInt(parts[1]);
         int year = Integer.parseInt(parts[2]);
-        this.date = new LocalDate(day, month, year);
+        this.date = new LocalDate(year, month, day);
     }
 
     public boolean isWatchedStatus() {

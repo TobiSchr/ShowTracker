@@ -1,5 +1,6 @@
 package tobis.showtracker;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.joda.time.LocalDate;
 
 /**
  * Created by TobiX on 04.09.2016.
@@ -85,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = WatchListFragment.class;
         }
 
+        swapFragment(fragmentClass);
+        //TODO can be removed if swapFragment works
+        /*
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();*/
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
@@ -132,5 +138,50 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Bundle extras = intent.getExtras();
+        /* owner
+         * 1 = addNewShowFragment*/
+        int owner = extras.getInt("owner");
+        switch (owner){
+            case 1: //addNewShowFragment click on fab_add
+                String showArray[] = extras.getStringArray("season");
+                String showName = showArray[0];
+                int seasonNum = Integer.getInteger(showArray[1]);
+                int episodeNumbers = Integer.getInteger(showArray[2]);
+                //dd.MM.yy
+                String[] parts = showArray[3].split(".");
+                int day = Integer.parseInt(parts[0]);
+                int month = Integer.parseInt(parts[1]);
+                int year = Integer.parseInt(parts[2]);
+                LocalDate startDate = new LocalDate(year, month, day);
+                int interval = Integer.getInteger(showArray[4]);
+
+                Episode epArray[] = new Episode[episodeNumbers];
+                for (int i = 0; i < episodeNumbers; i++) {
+                   epArray[i] = new Episode(showName, seasonNum, i + 1, startDate, false);
+                   startDate.plusDays(interval);
+               }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void swapFragment(Class fragmentClass){
+        Fragment fragment = null;
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 }

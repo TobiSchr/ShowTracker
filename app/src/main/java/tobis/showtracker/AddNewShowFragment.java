@@ -35,12 +35,11 @@ import java.util.List;
  * outdated
  */
 public class AddNewShowFragment extends Fragment {
-    private static LocalDate startDate;
     private Context context;
     //views which need to be filled
     private EditText etTitle;
     private EditText etSeasonNumber;
-    private static TextView tvStartDate;
+    private TextView tvStartDate;
     private EditText etInterval;
     private EditText etEpisodeNumbers;
 
@@ -72,15 +71,7 @@ public class AddNewShowFragment extends Fragment {
         //etBeforeBreak = (Spinner) view.findViewById(R.id.before_break);
         //etAfterBreak = (Spinner) view.findViewById(R.id.after_break);
 
-        if (etTitle.getText().toString().equals("")
-                && etSeasonNumber.getText().toString().equals("")
-                && tvStartDate.getText().equals("")
-                && etInterval.getText().toString().equals("")
-                && etEpisodeNumbers.getText().toString().equals("")) {
-            Log.i("test1", "everything clear");
-        }
-
-        tvStartDate.setHint(new LocalDate().toString("dd.MM.yyyy"));
+        tvStartDate.setHint(new LocalDate().toString("dd.MM.yy"));
 
         final FloatingActionButton fab_add = (FloatingActionButton) view.findViewById(R.id.fab_add);
         if (fab_add != null) {
@@ -92,11 +83,13 @@ public class AddNewShowFragment extends Fragment {
                     String seasonNumberStr = etSeasonNumber.getText().toString();
                     String intervalStr = etInterval.getText().toString();
                     String episodeNumbersStr = etEpisodeNumbers.getText().toString();
+                    String startDateStr = tvStartDate.getText().toString();
 
                     //check if all fields are filled
                     if (showName.equals("") || seasonNumberStr.equals("")
-                            || tvStartDate.getText().equals("")
-                            || intervalStr.equals("") || episodeNumbersStr.equals("")) {
+                            || startDateStr.equals("")
+                            || intervalStr.equals("")
+                            || episodeNumbersStr.equals("")) {
 
                         String text = "Please fill in all fields";
                         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
@@ -104,28 +97,30 @@ public class AddNewShowFragment extends Fragment {
                         return;
                     }
 
-                    int seasonNum = Integer.getInteger(seasonNumberStr);
-                    int interval = Integer.getInteger(intervalStr);
-                    int episodeNumbers = Integer.getInteger(episodeNumbersStr);
-                    //startDate is already set in DatePickerFragment
-
-                    if (episodeNumbers == 0) {
-                        String text = "Number of Episodes must be greater 0";
+                    if (Integer.getInteger(episodeNumbersStr) == 0) {
+                        String text = "Number of Episodes must be greater than 0";
                         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-                        //episodeNumbers must be greater 0 to continue
+                        //episodeNumbers must be greater than 0 to continue
                         return;
                     }
 
-                    Episode epArray[] = new Episode[episodeNumbers];
-                    for (int i = 0; i < episodeNumbers; i++) {
-                        epArray[i] = new Episode(showName, seasonNum, i + 1, startDate, false);
-                        startDate.plusDays(interval);
-                    }
+                    String seasonArray[] = {
+                            showName,
+                            seasonNumberStr,
+                            episodeNumbersStr,
+                            startDateStr.substring(4),
+                            intervalStr
+                    };
+                    Log.i("date substring3", startDateStr.substring(3));
+                    Log.i("date substring4", startDateStr.substring(4));
+                    Log.i("date substring5", startDateStr.substring(5));
+
                     //TODO put episode in intent and switch back to watchlist/showoverview
 
                     Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("owner", 1);
-                    intent.putExtra("episodes", epArray);
+                    intent.putExtra("season", seasonArray);
                     startActivity(intent);
                 }
             });
@@ -175,7 +170,7 @@ public class AddNewShowFragment extends Fragment {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             Log.i("month", String.valueOf(month));
-            startDate = new LocalDate(year, month + 1, day);
+            LocalDate startDate = new LocalDate(year, month + 1, day);
 
             String dayOfWeek;
             switch (startDate.getDayOfWeek()) {
@@ -201,11 +196,12 @@ public class AddNewShowFragment extends Fragment {
                     dayOfWeek = "(So)";
                     break;
                 default:
-                    dayOfWeek = "error";
+                    dayOfWeek = "(ER)";
                     break;
             }
             dayOfWeek += "\t" + startDate.toString("dd.MM.yy");
-            tvStartDate.setText(dayOfWeek);
+            TextView localTvStartDate = (TextView) view.findViewById(R.id.startdate);
+            localTvStartDate.setText(dayOfWeek);
         }
     }
 }
