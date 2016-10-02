@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,8 +25,8 @@ import java.util.List;
 
 public class WatchListFragment extends Fragment {
     private EpisodeRecycleAdapter mAdapter;
-    private List<Episode> watchList;
-    private List<Episode> markedWatchedList;
+    private List<Episode> watchList; //contains all unseen episodes
+    private List<Episode> releasedEpisodeList; //contains all unseen & released episodes
     private RecyclerView mRecyclerView;
     private Context context;
     EpisodeJSON ejson;
@@ -34,6 +35,40 @@ public class WatchListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        Log.i("onCreate", "watchlist");
+        Bundle args = getArguments();
+        if(args != null){
+            String season[] = args.getStringArray("season");
+            if(season != null)
+                addEpisodesfromSeasonString(season);
+        }
+    }
+
+    private void addEpisodesfromSeasonString(String[] seasonArray) {
+        if(seasonArray.length != 5){
+            Log.e("seasonArray length", String.valueOf(seasonArray.length));
+            return;
+        }
+        String showName = seasonArray[0];
+        int seasonNum = Integer.parseInt(seasonArray[1]);
+        int episodeNumbers = Integer.parseInt(seasonArray[2]);
+        //dd.MM.yy
+        String testthis = seasonArray[3]; //test if "dd.MM.yy"
+        String[] parts = seasonArray[3].split(".");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+        //TODO check if works, maybe add 2000;
+        LocalDate startDate = new LocalDate(year, month, day); //TODO test
+        Log.i("startdate yy", startDate.toString("dd.MM.yy"));
+        Log.i("startdate yyyy", startDate.toString("dd.MM.yyyy"));
+        int interval = Integer.parseInt(seasonArray[4]);
+
+        for (int i = 1; i <= episodeNumbers; i++) {
+            watchList.add(new Episode(showName, seasonNum, i, startDate, false));
+            startDate.plusDays(interval);
+        }
     }
 
     @Nullable
@@ -41,6 +76,7 @@ public class WatchListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        Log.i("onCreateView", "watchlist");
         View view = inflater.inflate(R.layout.watch_list_fragment, container, false);
         context = view.getContext();
         final FloatingActionButton fab_save = (FloatingActionButton) view.findViewById(R.id.fab_save);
@@ -82,7 +118,7 @@ public class WatchListFragment extends Fragment {
             watchList.add(new Episode("Game of Thrones", 7, 2, ld, false));
             ld = ld.plusDays(1);
             watchList.add(new Episode("Hodentorsion", 7, 2, ld, false));
-            ld = ld.plusDays(1);
+            /*ld = ld.plusDays(1);
             watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
             ld = ld.plusWeeks(1);
             watchList.add(new Episode("Game of Thrones", 6, 8, ld, false));
@@ -99,7 +135,7 @@ public class WatchListFragment extends Fragment {
             ld = ld.plusDays(1);
             watchList.add(new Episode("Game of Thrones", 7, 1, ld, false));
             ld = ld.plusDays(1);
-            watchList.add(new Episode("Shameless", 8, 1, ld, false));
+            watchList.add(new Episode("Shameless", 8, 1, ld, false));*/
         }
         mAdapter = new EpisodeRecycleAdapter(context, watchList);
         mRecyclerView.setAdapter(mAdapter);
@@ -108,18 +144,15 @@ public class WatchListFragment extends Fragment {
             fab_save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ArrayList<Episode> moveList = new ArrayList<>();
+                    ArrayList<Episode> removeList = new ArrayList<>();
                     for (Episode watchListEpisode : watchList) {
                         if (watchListEpisode.isWatchedStatus()) {
                             //save all marked as watched episodes into moveList
-                            moveList.add(watchListEpisode);
+                            removeList.add(watchListEpisode);
                         }
                     }
-                    ArrayList<Episode> alreadySeenList = new ArrayList<>(); //TODO move to proper place
-                    //move all episodes of moveList to alreadySeen and remove from watchList
-                    //alreadySeenList.addAll(moveList); //crashes the app
                     mAdapter.unselectAllItems(mRecyclerView);
-                    watchList.removeAll(moveList);
+                    watchList.removeAll(removeList);
                     mAdapter.notifyDataSetChanged();
 
                     try {

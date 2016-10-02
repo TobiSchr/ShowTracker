@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("onCreate", "mainactivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = WatchListFragment.class;
         }
 
-        swapFragment(fragmentClass);
+        swapFragment(fragmentClass, null);
         //TODO can be removed if swapFragment works
         /*
         try {
@@ -142,36 +144,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        Log.i("onNewIntent", "mainactivity");
         Bundle extras = intent.getExtras();
         /* owner
+         * 0 = MainActivity
          * 1 = addNewShowFragment*/
         int owner = extras.getInt("owner");
         switch (owner){
             case 1: //addNewShowFragment click on fab_add
-                String showArray[] = extras.getStringArray("season");
-                String showName = showArray[0];
-                int seasonNum = Integer.getInteger(showArray[1]);
-                int episodeNumbers = Integer.getInteger(showArray[2]);
-                //dd.MM.yy
-                String[] parts = showArray[3].split(".");
-                int day = Integer.parseInt(parts[0]);
-                int month = Integer.parseInt(parts[1]);
-                int year = Integer.parseInt(parts[2]);
-                LocalDate startDate = new LocalDate(year, month, day);
-                int interval = Integer.getInteger(showArray[4]);
-
-                Episode epArray[] = new Episode[episodeNumbers];
-                for (int i = 0; i < episodeNumbers; i++) {
-                   epArray[i] = new Episode(showName, seasonNum, i + 1, startDate, false);
-                   startDate.plusDays(interval);
-               }
+                Bundle args = new Bundle();
+                args.putStringArray("season", extras.getStringArray("season"));
+                swapFragment(WatchListFragment.class, args);
                 break;
             default:
                 break;
         }
     }
 
-    private void swapFragment(Class fragmentClass){
+    private void swapFragment(Class fragmentClass, Bundle args){
         Fragment fragment = null;
 
         try {
@@ -179,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if(args != null)
+            fragment.setArguments(args);
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();

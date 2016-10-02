@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class AddNewShowFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Log.i("onCreate", "addNew");
     }
 
     @Nullable
@@ -60,6 +62,7 @@ public class AddNewShowFragment extends Fragment {
         if (container == null) {
             return null;
         }
+        Log.i("onCreateView", "addNew");
         View view = inflater.inflate(R.layout.add_new_fragment, container, false);
         context = view.getContext();
         etTitle = (EditText) view.findViewById(R.id.title);
@@ -97,7 +100,8 @@ public class AddNewShowFragment extends Fragment {
                         return;
                     }
 
-                    if (Integer.getInteger(episodeNumbersStr) == 0) {
+                    int episodeNumbersInt = Integer.parseInt(episodeNumbersStr);
+                    if (episodeNumbersInt == 0) {
                         String text = "Number of Episodes must be greater than 0";
                         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                         //episodeNumbers must be greater than 0 to continue
@@ -138,6 +142,7 @@ public class AddNewShowFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.i("onActivityCreated", "addNew");
         final DialogFragment newFragment = new DatePickerFragment();
 
         tvStartDate.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +174,6 @@ public class AddNewShowFragment extends Fragment {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
-            Log.i("month", String.valueOf(month));
             LocalDate startDate = new LocalDate(year, month + 1, day);
 
             String dayOfWeek;
@@ -200,7 +204,7 @@ public class AddNewShowFragment extends Fragment {
                     break;
             }
             dayOfWeek += "\t" + startDate.toString("dd.MM.yy");
-            TextView localTvStartDate = (TextView) view.findViewById(R.id.startdate);
+            TextView localTvStartDate = (TextView) getActivity().findViewById(R.id.startdate);
             localTvStartDate.setText(dayOfWeek);
         }
     }
