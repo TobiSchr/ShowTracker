@@ -42,6 +42,7 @@ public class WatchListFragment extends Fragment {
             String season[] = args.getStringArray("season");
             if(season != null)
                 addEpisodesfromSeasonString(season);
+            //TODO maybe move to a later state
         }
     }
 
@@ -89,8 +90,8 @@ public class WatchListFragment extends Fragment {
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(context, R.drawable.divider));
 
-        mRecyclerView.
-                addOnScrollListener(new RecyclerView.OnScrollListener() {
+        //hide fab when scrolling up, so the last isnt hidden
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrolled(RecyclerView recyclerView,
                                            int dx, int dy) {
@@ -116,8 +117,6 @@ public class WatchListFragment extends Fragment {
             watchList.add(new Episode("Game of Thrones", 6, 9, ld, false));
             ld = ld.plusDays(1);
             watchList.add(new Episode("Game of Thrones", 7, 2, ld, false));
-            ld = ld.plusDays(1);
-            watchList.add(new Episode("Hodentorsion", 7, 2, ld, false));
             /*ld = ld.plusDays(1);
             watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
             ld = ld.plusWeeks(1);
@@ -137,7 +136,8 @@ public class WatchListFragment extends Fragment {
             ld = ld.plusDays(1);
             watchList.add(new Episode("Shameless", 8, 1, ld, false));*/
         }
-        mAdapter = new EpisodeRecycleAdapter(context, watchList);
+        updateReleasedEpisodeList();
+        mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);
         mRecyclerView.setAdapter(mAdapter);
 
         if (fab_save != null) {
@@ -153,6 +153,7 @@ public class WatchListFragment extends Fragment {
                     }
                     mAdapter.unselectAllItems(mRecyclerView);
                     watchList.removeAll(removeList);
+                    updateReleasedEpisodeList();
                     mAdapter.notifyDataSetChanged();
 
                     try {
@@ -160,12 +161,23 @@ public class WatchListFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //TODO
                 }
             });
         }
-
         return view;
+    }
+
+    private void updateReleasedEpisodeList(){
+        LocalDate today = new LocalDate();
+        releasedEpisodeList = new ArrayList<>();
+        for (Episode watchListEpisode : watchList) {
+            LocalDate epDate = watchListEpisode.getDate();
+            //TODO test
+            //true of epDate is before or equals today
+            if (epDate.compareTo(today) <= 0) {
+                releasedEpisodeList.add(watchListEpisode);
+            }
+        }
     }
 
     @Override
@@ -194,8 +206,7 @@ public class WatchListFragment extends Fragment {
                     return compare_score; //NNSSEEE NamedifSeasondifEpisodedif
                 }
             };
-            Collections.sort(watchList, comparator_name);
-            //TODO keep selection
+            Collections.sort(releasedEpisodeList, comparator_name);
             mAdapter.notifyDataSetChanged();
             return true;
         }
@@ -210,8 +221,7 @@ public class WatchListFragment extends Fragment {
                     return compare_score;
                 }
             };
-            Collections.sort(watchList, comparator_date);
-            //TODO keep selection
+            Collections.sort(releasedEpisodeList, comparator_date);
             mAdapter.notifyDataSetChanged();
             return true;
         }

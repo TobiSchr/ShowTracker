@@ -11,7 +11,7 @@ class Episode {
     private int seasonNumber;
     private int episodeNumber;
     private LocalDate date;
-    private boolean watchedStatus;
+    private boolean watchedStatus; //only true, when its selected
 
     Episode() {
         this.showName = null;

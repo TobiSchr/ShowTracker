@@ -3,7 +3,6 @@ package tobis.showtracker;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,19 +16,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.joda.time.LocalDate;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by TobiX on 04.09.2016.
@@ -48,7 +40,6 @@ public class AddNewShowFragment extends Fragment {
     //private  Spinner etBeforeBreak;
     //private  Spinner etAfterBreak;
 
-    //https://github.com/codepath/android_guides/wiki/Fragment-Navigation-Drawer
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -76,12 +67,22 @@ public class AddNewShowFragment extends Fragment {
 
         tvStartDate.setHint(new LocalDate().toString("dd.MM.yy"));
 
+        if(etSeasonNumber != null){
+            etSeasonNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(!hasFocus && tvStartDate.getText().equals("")) {
+                        tvStartDate.performClick();
+                        //TODO check what happens with the focus, should open datepicker and be in next edittext after
+                    }
+                }
+            });
+        }
+
         final FloatingActionButton fab_add = (FloatingActionButton) view.findViewById(R.id.fab_add);
         if (fab_add != null) {
             fab_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO check if all is set
                     String showName = etTitle.getText().toString().trim();
                     String seasonNumberStr = etSeasonNumber.getText().toString();
                     String intervalStr = etInterval.getText().toString();
