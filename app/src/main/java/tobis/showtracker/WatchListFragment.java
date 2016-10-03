@@ -35,41 +35,7 @@ public class WatchListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        Log.i("onCreate", "watchlist");
-        Bundle args = getArguments();
-        if(args != null){
-            String season[] = args.getStringArray("season");
-            if(season != null)
-                addEpisodesfromSeasonString(season);
-            //TODO maybe move to a later state
-        }
-    }
-
-    private void addEpisodesfromSeasonString(String[] seasonArray) {
-        if(seasonArray.length != 5){
-            Log.e("seasonArray length", String.valueOf(seasonArray.length));
-            return;
-        }
-        String showName = seasonArray[0];
-        int seasonNum = Integer.parseInt(seasonArray[1]);
-        int episodeNumbers = Integer.parseInt(seasonArray[2]);
-        //dd.MM.yy
-        String testthis = seasonArray[3]; //test if "dd.MM.yy"
-        String[] parts = seasonArray[3].split(".");
-        int day = Integer.parseInt(parts[0]);
-        int month = Integer.parseInt(parts[1]);
-        int year = Integer.parseInt(parts[2]);
-        //TODO check if works, maybe add 2000;
-        LocalDate startDate = new LocalDate(year, month, day); //TODO test
-        Log.i("startdate yy", startDate.toString("dd.MM.yy"));
-        Log.i("startdate yyyy", startDate.toString("dd.MM.yyyy"));
-        int interval = Integer.parseInt(seasonArray[4]);
-
-        for (int i = 1; i <= episodeNumbers; i++) {
-            watchList.add(new Episode(showName, seasonNum, i, startDate, false));
-            startDate.plusDays(interval);
-        }
+        watchList = new ArrayList<>();
     }
 
     @Nullable
@@ -77,7 +43,6 @@ public class WatchListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        Log.i("onCreateView", "watchlist");
         View view = inflater.inflate(R.layout.watch_list_fragment, container, false);
         context = view.getContext();
         final FloatingActionButton fab_save = (FloatingActionButton) view.findViewById(R.id.fab_save);
@@ -109,6 +74,7 @@ public class WatchListFragment extends Fragment {
                     }
                 });
 
+        /*
         ejson = new EpisodeJSON(context);
         watchList = ejson.readFromFile();
         if (watchList == null) {
@@ -117,7 +83,7 @@ public class WatchListFragment extends Fragment {
             watchList.add(new Episode("Game of Thrones", 6, 9, ld, false));
             ld = ld.plusDays(1);
             watchList.add(new Episode("Game of Thrones", 7, 2, ld, false));
-            /*ld = ld.plusDays(1);
+            ld = ld.plusDays(1);
             watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
             ld = ld.plusWeeks(1);
             watchList.add(new Episode("Game of Thrones", 6, 8, ld, false));
@@ -134,9 +100,23 @@ public class WatchListFragment extends Fragment {
             ld = ld.plusDays(1);
             watchList.add(new Episode("Game of Thrones", 7, 1, ld, false));
             ld = ld.plusDays(1);
-            watchList.add(new Episode("Shameless", 8, 1, ld, false));*/
+            watchList.add(new Episode("Shameless", 8, 1, ld, false));
         }
         updateReleasedEpisodeList();
+        */
+        ejson = new EpisodeJSON(context);
+        watchList = ejson.readFromFile();
+
+        Bundle args = getArguments();
+        if(args != null){
+            String season[] = args.getStringArray("season");
+            if(season != null){
+                addEpisodesfromSeasonString(season);
+                writeWatchListToEJSON();
+            }
+        }
+        updateReleasedEpisodeList();
+
         mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -147,7 +127,7 @@ public class WatchListFragment extends Fragment {
                     ArrayList<Episode> removeList = new ArrayList<>();
                     for (Episode watchListEpisode : watchList) {
                         if (watchListEpisode.isWatchedStatus()) {
-                            //save all marked as watched episodes into moveList
+                            //save all marked as watched episodes into removeList
                             removeList.add(watchListEpisode);
                         }
                     }
@@ -155,18 +135,41 @@ public class WatchListFragment extends Fragment {
                     watchList.removeAll(removeList);
                     updateReleasedEpisodeList();
                     mAdapter.notifyDataSetChanged();
-
-                    try {
-                        ejson.writeToFile(watchList);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    writeWatchListToEJSON();
                 }
             });
         }
         return view;
     }
 
+    private void addEpisodesfromSeasonString(String[] seasonArray) {
+        if(seasonArray.length != 5){
+            Log.e("seasonArray length", String.valueOf(seasonArray.length));
+            return;
+        }
+        String showName = seasonArray[0];
+        int seasonNum = Integer.parseInt(seasonArray[1]);
+        int episodeNumbers = Integer.parseInt(seasonArray[2]);
+        //dd.MM.yy
+        String[] parts = seasonArray[3].split("\\.");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]) + 2000;
+        LocalDate startDate = new LocalDate(year, month, day);
+        int interval = Integer.parseInt(seasonArray[4]);
+
+        Episode e;
+        for (int i = 1; i <= episodeNumbers; i++) {
+            e = new Episode(showName, seasonNum, i, startDate, false);
+            Log.i("EPISODE_ADDED", e.toString());
+            watchList.add(e);
+            startDate = startDate.plusDays(interval);
+        }
+    }
+
+    /**
+     * should be followed up by mAdapter.notifyDataSetChanged();
+     */
     private void updateReleasedEpisodeList(){
         LocalDate today = new LocalDate();
         releasedEpisodeList = new ArrayList<>();
@@ -177,6 +180,14 @@ public class WatchListFragment extends Fragment {
             if (epDate.compareTo(today) <= 0) {
                 releasedEpisodeList.add(watchListEpisode);
             }
+        }
+    }
+
+    private void writeWatchListToEJSON(){
+        try {
+            ejson.writeToFile(watchList);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

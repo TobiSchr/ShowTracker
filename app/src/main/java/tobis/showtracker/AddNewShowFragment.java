@@ -113,12 +113,10 @@ public class AddNewShowFragment extends Fragment {
                             showName,
                             seasonNumberStr,
                             episodeNumbersStr,
-                            startDateStr.substring(4),
+                            startDateStr.substring(5), //remove "(XX)\"
                             intervalStr
                     };
-                    Log.i("date substring3", startDateStr.substring(3));
-                    Log.i("date substring4", startDateStr.substring(4));
-                    Log.i("date substring5", startDateStr.substring(5));
+
 
                     //TODO put episode in intent and switch back to watchlist/showoverview
 

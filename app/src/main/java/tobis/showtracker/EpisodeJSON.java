@@ -67,7 +67,7 @@ public class EpisodeJSON {
     /*-READ-------------------------------------------------------------------------------------*/
 
     public List<Episode> readFromFile() {
-        List<Episode> retList = null;
+        List<Episode> retList = new ArrayList<>();
 
         try {
             InputStream inputStream = context.openFileInput("shows.save");
