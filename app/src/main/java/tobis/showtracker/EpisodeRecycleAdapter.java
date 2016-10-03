@@ -108,8 +108,8 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             Episode item = episodes.get(itemPos);
             if (item.isWatchedStatus()) {
                 //true => seen
-                View view = mRecyclerView.getChildAt(itemPos);
-                ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image);
+                View view = mRecyclerView.getChildAt(itemPos); //TODO nullpointer probably here
+                ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image); //TODO nullpointer
 
                 //perform changes for unselected state
                 item.setWatchedStatus(false);
