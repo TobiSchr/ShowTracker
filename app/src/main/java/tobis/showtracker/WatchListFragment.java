@@ -33,7 +33,7 @@ public class WatchListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        watchList = new ArrayList<>();
+        wlFunc = new WatchListFunctions();
     }
 
     @Nullable
@@ -82,7 +82,7 @@ public class WatchListFragment extends Fragment {
             String season[] = args.getStringArray("season");
             if(season != null){
                 watchList.addAll(wlFunc.getEpisodesfromSeasonString(season));
-                Collections.sort(releasedEpisodeList, comparator_date);
+                Collections.sort(watchList, comparator_date);
                 writeWatchListToEJSON();
             }
         }
@@ -105,11 +105,10 @@ public class WatchListFragment extends Fragment {
                         }
                     }
                     mAdapter.unselectAllItems(mRecyclerView);
-                    mAdapter.notifyDataSetChanged();
                     watchList.removeAll(removeList);
                     releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
-
-                    mAdapter.notifyDataSetChanged(); //TODO WHYYYYYYYYY
+                    mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);
+                    mRecyclerView.setAdapter(mAdapter); //TODO WHYYYYYYYYY
                     writeWatchListToEJSON();
                 }
             });

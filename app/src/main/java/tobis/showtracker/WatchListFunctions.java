@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by TobiX on 07.10.2016.
- * bla
+ * bla    releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
  */
 
 class WatchListFunctions {
