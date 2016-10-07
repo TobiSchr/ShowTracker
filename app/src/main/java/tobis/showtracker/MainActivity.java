@@ -91,17 +91,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         swapFragment(fragmentClass, null);
-        //TODO can be removed if swapFragment works
-        /*
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();*/
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
