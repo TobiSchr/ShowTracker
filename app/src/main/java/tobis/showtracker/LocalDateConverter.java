@@ -44,7 +44,7 @@ import java.lang.reflect.Type;
 /**
  * GSON serialiser/deserialiser for converting Joda {@link LocalDate} objects.
  */
-public class LocalDateConverter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
+class LocalDateConverter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
     /**
      * Format specifier
      */

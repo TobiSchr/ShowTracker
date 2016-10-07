@@ -13,6 +13,8 @@ class Episode {
     private LocalDate date;
     private boolean watchedStatus; //only true, when its selected
 
+    //TODO clean unused later
+    /*
     Episode() {
         this.showName = null;
         this.seasonNumber = 0;
@@ -20,6 +22,7 @@ class Episode {
         this.date = null;
         this.watchedStatus = false;
     }
+    */
 
     /**
      * @param showName      name of the show
@@ -52,6 +55,7 @@ class Episode {
         return date;
     }
 
+    /*
     public void setDate(LocalDate date) {
         this.date = date;
     }
@@ -59,10 +63,12 @@ class Episode {
     public void setDate(int day, int month, int year) {
         this.date = new LocalDate(year, month, day);
     }
+    */
 
-    /**
+    /*
      * @param date expects string in format "dd-MM-yyyy"
      */
+    /*
     public void setDate(String date) {
         String[] parts = date.split("-");
         int day = Integer.parseInt(parts[0]);
@@ -70,12 +76,13 @@ class Episode {
         int year = Integer.parseInt(parts[2]);
         this.date = new LocalDate(year, month, day);
     }
+    */
 
-    public boolean isWatchedStatus() {
+    boolean isWatchedStatus() {
         return watchedStatus;
     }
 
-    public void setWatchedStatus(boolean watchedStatus) {
+    void setWatchedStatus(boolean watchedStatus) {
         this.watchedStatus = watchedStatus;
     }
 

@@ -25,7 +25,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
     private int counterOfActiveSwitches = 0;
     private Context mContext;
 
-    public int getCounterOfActiveSwitches() {
+    int getCounterOfActiveSwitches() {
         return counterOfActiveSwitches;
     }
 
@@ -101,7 +101,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
      *
      * @param mRecyclerView in which recyclerview the items shall be unselected
      */
-    public void unselectAllItems(RecyclerView mRecyclerView) {
+    void unselectAllItems(RecyclerView mRecyclerView) {
         FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab_save);
 
         for (int itemPos = 0; itemPos < getItemCount(); itemPos++) {

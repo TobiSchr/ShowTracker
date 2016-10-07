@@ -1,7 +1,6 @@
 package tobis.showtracker;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -11,11 +10,11 @@ import android.view.View;
 /**
  * Created by TobiX on 04.08.2016.
  *
- * used to add a divider, defined in TODO, between recycle view items
+ * used to add a divider between recycle view items
  */
-public class DividerItemDecoration extends RecyclerView.ItemDecoration {
+class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
-    private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
+    //private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
     private Drawable mDivider;
     private int side_margin;
@@ -23,17 +22,19 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * Default divider will be used
      */
+    /*
     public DividerItemDecoration(Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
         mDivider = styledAttributes.getDrawable(0);
         styledAttributes.recycle();
         side_margin = context.getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
     }
+    */
 
     /**
      * Custom divider will be used
      */
-    public DividerItemDecoration(Context context, int resId) {
+    DividerItemDecoration(Context context, int resId) {
         mDivider = ContextCompat.getDrawable(context, resId);
         side_margin = context.getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
     }

@@ -1,8 +1,6 @@
 package tobis.showtracker;
 
 import android.content.Context;
-import android.util.JsonReader;
-import android.util.JsonWriter;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -17,7 +15,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +24,9 @@ import java.util.List;
  *
  * Read and Write to JSON
  */
-public class EpisodeJSON {
-    Context context;
-    public static final Type LOCAL_DATE_TYPE = new TypeToken<LocalDate>() {
+class EpisodeJSON {
+    private Context context;
+    private static final Type LOCAL_DATE_TYPE = new TypeToken<LocalDate>() {
     }.getType();
 
     EpisodeJSON(Context context) {
@@ -42,7 +39,7 @@ public class EpisodeJSON {
         return builder.create();
     }
 
-    public void writeToFile(List<Episode> episodes) throws IOException {
+    void writeToFile(List<Episode> episodes) throws IOException {
         //REMOVE LATER
         for (Episode e : episodes) {
             Log.i("writeE", e.toString());
@@ -66,7 +63,7 @@ public class EpisodeJSON {
 
     /*-READ-------------------------------------------------------------------------------------*/
 
-    public List<Episode> readFromFile() {
+    List<Episode> readFromFile() {
         List<Episode> retList = new ArrayList<>();
 
         try {
