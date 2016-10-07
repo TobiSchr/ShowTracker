@@ -27,4 +27,8 @@ dependencies {
     compile 'joda-time:joda-time:2.9.4' // for joda
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.google.code.gson:gson:2.4'
+    // Required -- JUnit 4 framework
+    testCompile 'junit:junit:4.12'
+    // Optional -- Mockito framework
+    testCompile 'org.mockito:mockito-core:1.10.19'
 }

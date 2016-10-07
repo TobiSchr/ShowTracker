@@ -7,15 +7,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import org.joda.time.LocalDate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class WatchListFragment extends Fragment {
+    private WatchListFunctions wlFunc; //functons which dont require android
     private EpisodeRecycleAdapter mAdapter;
     private List<Episode> watchList; //contains all unseen episodes
     private List<Episode> releasedEpisodeList; //contains all unseen & released episodes
@@ -74,48 +72,23 @@ public class WatchListFragment extends Fragment {
                     }
                 });
 
-        /*
-        ejson = new EpisodeJSON(context);
-        watchList = ejson.readFromFile();
-        if (watchList == null) {
-            watchList = new ArrayList<>();
-            LocalDate ld = LocalDate.now();
-            watchList.add(new Episode("Game of Thrones", 6, 9, ld, false));
-            ld = ld.plusDays(1);
-            watchList.add(new Episode("Game of Thrones", 7, 2, ld, false));
-            ld = ld.plusDays(1);
-            watchList.add(new Episode("Game of Thrones", 6, 10, ld, false));
-            ld = ld.plusWeeks(1);
-            watchList.add(new Episode("Game of Thrones", 6, 8, ld, false));
-            ld = ld.plusWeeks(1);
-            watchList.add(new Episode("Breaking Bad", 5, 10, ld, false));
-            ld = ld.plusDays(1);
-            watchList.add(new Episode("House of Cards", 3, 1, ld, false));
-            ld = ld.plusDays(1);
-            watchList.add(new Episode("Grey's Anatomy", 13, 23, ld, false));
-            ld = ld.plusDays(1);
-            watchList.add(new Episode("One Piece", 1, 388, ld, false));
-            ld = ld.plusWeeks(2);
-            watchList.add(new Episode("One Piece", 1, 389, ld, false));
-            ld = ld.plusDays(1);
-            watchList.add(new Episode("Game of Thrones", 7, 1, ld, false));
-            ld = ld.plusDays(1);
-            watchList.add(new Episode("Shameless", 8, 1, ld, false));
-        }
-        updateReleasedEpisodeList();
-        */
+        //load watchlist from saved file
         ejson = new EpisodeJSON(context);
         watchList = ejson.readFromFile();
 
+        //if was opened by addnewshowfragment
         Bundle args = getArguments();
         if(args != null){
             String season[] = args.getStringArray("season");
             if(season != null){
-                addEpisodesfromSeasonString(season);
+                watchList.addAll(wlFunc.getEpisodesfromSeasonString(season));
+                Collections.sort(releasedEpisodeList, comparator_date);
                 writeWatchListToEJSON();
             }
         }
-        updateReleasedEpisodeList();
+
+        //load released episodes of watchlist in releasedEpisodeList
+        releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
 
         mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);
         mRecyclerView.setAdapter(mAdapter);
@@ -132,55 +105,16 @@ public class WatchListFragment extends Fragment {
                         }
                     }
                     mAdapter.unselectAllItems(mRecyclerView);
-                    watchList.removeAll(removeList);
-                    updateReleasedEpisodeList();
                     mAdapter.notifyDataSetChanged();
+                    watchList.removeAll(removeList);
+                    releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
+
+                    mAdapter.notifyDataSetChanged(); //TODO WHYYYYYYYYY
                     writeWatchListToEJSON();
                 }
             });
         }
         return view;
-    }
-
-    private void addEpisodesfromSeasonString(String[] seasonArray) {
-        if(seasonArray.length != 5){
-            Log.e("seasonArray length", String.valueOf(seasonArray.length));
-            return;
-        }
-        String showName = seasonArray[0];
-        int seasonNum = Integer.parseInt(seasonArray[1]);
-        int episodeNumbers = Integer.parseInt(seasonArray[2]);
-        //dd.MM.yy
-        String[] parts = seasonArray[3].split("\\.");
-        int day = Integer.parseInt(parts[0]);
-        int month = Integer.parseInt(parts[1]);
-        int year = Integer.parseInt(parts[2]) + 2000;
-        LocalDate startDate = new LocalDate(year, month, day);
-        int interval = Integer.parseInt(seasonArray[4]);
-
-        Episode e;
-        for (int i = 1; i <= episodeNumbers; i++) {
-            e = new Episode(showName, seasonNum, i, startDate, false);
-            Log.i("EPISODE_ADDED", e.toString());
-            watchList.add(e);
-            startDate = startDate.plusDays(interval);
-        }
-    }
-
-    /**
-     * should be followed up by mAdapter.notifyDataSetChanged();
-     */
-    private void updateReleasedEpisodeList(){
-        LocalDate today = new LocalDate();
-        releasedEpisodeList = new ArrayList<>();
-        for (Episode watchListEpisode : watchList) {
-            LocalDate epDate = watchListEpisode.getDate();
-            //TODO test
-            //true of epDate is before or equals today
-            if (epDate.compareTo(today) <= 0) {
-                releasedEpisodeList.add(watchListEpisode);
-            }
-        }
     }
 
     private void writeWatchListToEJSON(){
@@ -205,18 +139,6 @@ public class WatchListFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_by_name) {
-            Comparator<Episode> comparator_name = new Comparator<Episode>() {
-                @Override
-                public int compare(Episode lhs, Episode rhs) {
-                    int compare_score;
-                    compare_score = lhs.getShowName().compareToIgnoreCase(rhs.getShowName());
-                    compare_score *= 100; //NN00 Namedif00
-                    compare_score += lhs.getSeasonNumber() - rhs.getSeasonNumber();
-                    compare_score *= 1000; //NNSS000 NamedifSeasonnumdiff00
-                    compare_score += lhs.getEpisodeNumber() - rhs.getEpisodeNumber();
-                    return compare_score; //NNSSEEE NamedifSeasondifEpisodedif
-                }
-            };
             Collections.sort(releasedEpisodeList, comparator_name);
             mAdapter.notifyDataSetChanged();
             return true;
@@ -224,14 +146,7 @@ public class WatchListFragment extends Fragment {
 
         if (id == R.id.action_sort_by_date) {
 
-            Comparator<Episode> comparator_date = new Comparator<Episode>() {
-                @Override
-                public int compare(Episode lhs, Episode rhs) {
-                    int compare_score;
-                    compare_score = lhs.getDate().compareTo(rhs.getDate());
-                    return compare_score;
-                }
-            };
+
             Collections.sort(releasedEpisodeList, comparator_date);
             mAdapter.notifyDataSetChanged();
             return true;
@@ -244,4 +159,30 @@ public class WatchListFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /**********************************************************************
+     * Compare Functions for sorting
+     **********************************************************************/
+    Comparator<Episode> comparator_name = new Comparator<Episode>() {
+        @Override
+        public int compare(Episode lhs, Episode rhs) {
+            int compare_score;
+            compare_score = lhs.getShowName().compareToIgnoreCase(rhs.getShowName());
+            compare_score *= 100; //NN00 Namedif00
+            compare_score += lhs.getSeasonNumber() - rhs.getSeasonNumber();
+            compare_score *= 1000; //NNSS000 NamedifSeasonnumdiff00
+            compare_score += lhs.getEpisodeNumber() - rhs.getEpisodeNumber();
+            return compare_score; //NNSSEEE NamedifSeasondifEpisodedif
+        }
+    };
+
+    Comparator<Episode> comparator_date = new Comparator<Episode>() {
+        @Override
+        public int compare(Episode lhs, Episode rhs) {
+            int compare_score;
+            compare_score = lhs.getDate().compareTo(rhs.getDate());
+            return compare_score;
+        }
+    };
+
 }
