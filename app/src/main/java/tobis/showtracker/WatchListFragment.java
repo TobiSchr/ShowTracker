@@ -86,7 +86,9 @@ public class WatchListFragment extends Fragment {
                 writeWatchListToEJSON();
             }
         }
-
+        for (Episode e : watchList) {
+            e.setWatchedStatus(false);
+        }
         //load released episodes of watchlist in releasedEpisodeList
         releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
 
@@ -107,21 +109,14 @@ public class WatchListFragment extends Fragment {
                     mAdapter.unselectAllItems(mRecyclerView);
                     watchList.removeAll(removeList);
                     releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
-                    mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);
-                    mRecyclerView.setAdapter(mAdapter); //TODO WHYYYYYYYYY
+                    //TODO WHY
+                    mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);//ugly fix
+                    mRecyclerView.setAdapter(mAdapter); // should have worked with notifydatasetchanged
                     writeWatchListToEJSON();
                 }
             });
         }
         return view;
-    }
-
-    private void writeWatchListToEJSON(){
-        try {
-            ejson.writeToFile(watchList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -158,7 +153,9 @@ public class WatchListFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-
+    /**********************************************************************
+     * Additional Functions
+     **********************************************************************/
     /**********************************************************************
      * Compare Functions for sorting
      **********************************************************************/
@@ -184,4 +181,14 @@ public class WatchListFragment extends Fragment {
         }
     };
 
+    /**
+     * writes watchlist in a file with json
+     */
+    private void writeWatchListToEJSON() {
+        try {
+            ejson.writeToFile(watchList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

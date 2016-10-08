@@ -71,7 +71,6 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
 
                 if (episodeItem.isWatchedStatus()) {
                     //true => seen
-                    //true => seen
                     episodeItem.setWatchedStatus(false);
                     eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
                     counterOfActiveSwitches--;
@@ -79,7 +78,6 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                     if (counterOfActiveSwitches <= 0 && fab.getVisibility() == View.VISIBLE) {
                         fab.hide();
                     }
-
                 } else {
                     //false => unseen
                     episodeItem.setWatchedStatus(true);

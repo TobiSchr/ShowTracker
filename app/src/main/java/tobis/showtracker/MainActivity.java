@@ -22,7 +22,6 @@ import android.view.MenuItem;
  */
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
-    private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -32,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = setupDrawerToggle();
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
 
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.addDrawerListener(drawerToggle);
@@ -45,19 +44,7 @@ public class MainActivity extends AppCompatActivity {
         // Find our drawer view
         NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
         // Setup drawer view
-        setupDrawerContent(nvDrawer);
-
-        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.flContent, new WatchListFragment());
-        tx.commit();
-    }
-
-    private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
-    }
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
+        nvDrawer.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -65,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.flContent, new WatchListFragment());
+        tx.commit();
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -78,9 +69,11 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = AddNewShowFragment.class;
                 break;
             case R.id.nav_link:
+                //TODO replace
                 fragmentClass = WatchListFragment.class;
                 break;
             case R.id.nav_version:
+                //TODO replace
                 fragmentClass = WatchListFragment.class;
                 break;
             default:
