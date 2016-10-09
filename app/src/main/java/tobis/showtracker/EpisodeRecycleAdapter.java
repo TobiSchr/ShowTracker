@@ -1,14 +1,20 @@
 package tobis.showtracker;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -90,6 +96,53 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                 }
             }
         });
+
+        //TODO longclick listener to postpone episodes for xx days
+        v.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                //TODO replace with xml
+                //TODO get informations of view
+                RecyclerView mRecyclerView = (RecyclerView) view.getRootView().findViewById(R.id.watchlistRV);
+                int itemPosition = mRecyclerView.getChildLayoutPosition(view);
+                Episode episodeItem = episodes.get(itemPosition);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+                String title = "Postpone '" + episodeItem.getShowName() + " " + episodeItem.getSeasonEpisodeAsString() + "'";
+                String msg = "Old date: " + episodeItem.getDateAsString() + "\n" + "Select new Date";
+                alert.setTitle(title);
+                alert.setMessage(msg);
+
+                // Set an EditText view to get user input
+                Integer intArray[] = new Integer[100];
+                for (int i = 0; i < 100; i++) {
+                    intArray[i] = i + 1;
+                }
+                final Spinner picker = new Spinner(mContext);
+                ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(mContext, android.R.layout.simple_spinner_item, intArray);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                picker.setAdapter(adapter);
+                alert.setView(picker);
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        int i = (int) picker.getSelectedItem();
+                        Log.d("", "Pin Value : " + i);
+                    }
+                });
+
+                alert.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                alert.show();
+
+                return true; //return true so no onClick event happens
+            }
+        });
+
         return new ViewHolder(v);
     }
 
@@ -107,8 +160,10 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             if (item.isWatchedStatus()) {
                 //true => seen
                 View view = mRecyclerView.getChildAt(itemPos); //TODO nullpointer probably here
-                ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image); //TODO nullpointer
-
+                ImageView eye_image;
+                if (view == null)//dont know if this fixes the problem
+                    break;
+                eye_image = (ImageView) view.findViewById(R.id.eye_image); //TODO nullpointer
                 //perform changes for unselected state
                 item.setWatchedStatus(false);
                 eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);

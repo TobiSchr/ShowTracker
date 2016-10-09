@@ -64,6 +64,7 @@ public class AddNewSeasonFragment extends Fragment {
         tvStartDate = (TextView) fragmentView.findViewById(R.id.startdate);
         etInterval = (EditText) fragmentView.findViewById(R.id.interval);
         etEpisodeNumbers = (EditText) fragmentView.findViewById(R.id.episodeNumbers);
+        //TODO add optional break
         //cbBreak = (CheckBox) view.findViewById(R.id.hasBreak);
         //etBeforeBreak = (Spinner) view.findViewById(R.id.before_break);
         //etAfterBreak = (Spinner) view.findViewById(R.id.after_break);
@@ -120,7 +121,7 @@ public class AddNewSeasonFragment extends Fragment {
                             showName,
                             seasonNumberStr,
                             episodeNumbersStr,
-                            startDateStr.substring(5), //remove "(XX)\"
+                            startDateStr.substring(5), //remove "(XX)\t"
                             intervalStr
                     };
 

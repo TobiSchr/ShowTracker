@@ -1,12 +1,9 @@
 package tobis.showtracker;
 
 import org.joda.time.LocalDate;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-import org.mockito.cglib.core.Local;
 
 
 import java.util.ArrayList;
@@ -43,7 +40,7 @@ public class FunctionTests {
     }
 
     @Test
-    public void test_getEpisodesfromSeasonString() throws Exception {
+    public void test_getEpisodesFromSeasonString() throws Exception {
         String seasonArray[] = {"Game Of Thrones", "5", "3", "02.04.16", "7"};
         watchList = wlf.getEpisodesfromSeasonString(seasonArray);
 
