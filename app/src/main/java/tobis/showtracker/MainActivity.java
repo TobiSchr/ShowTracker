@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = WatchListFragment.class;
                 break;
             case R.id.nav_addnew:
-                fragmentClass = AddNewShowFragment.class;
+                fragmentClass = AddNewSeasonFragment.class;
                 break;
             case R.id.nav_link:
                 //TODO replace
@@ -126,10 +126,10 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         /* owner
          * 0 = MainActivity
-         * 1 = addNewShowFragment*/
+         * 1 = addNewSeasonFragment*/
         int owner = extras.getInt("owner");
         switch (owner){
-            case 1: //addNewShowFragment click on fab_add
+            case 1: //addNewSeasonFragment click on fab_add
                 args = new Bundle();
                 args.putStringArray("season", extras.getStringArray("season"));
                 navViewListener.onNavigationItemSelected(nvDrawer.getMenu().getItem(0));

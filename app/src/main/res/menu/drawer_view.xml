@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_addnew"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Add new Show" />
+            android:title="Add new Season" />
     </group>
 
     <item android:title="Soon">

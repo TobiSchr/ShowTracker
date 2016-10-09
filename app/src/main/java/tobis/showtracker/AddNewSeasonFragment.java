@@ -29,7 +29,7 @@ import org.joda.time.LocalDate;
  * Created by TobiX on 04.09.2016.
  * outdated
  */
-public class AddNewShowFragment extends Fragment {
+public class AddNewSeasonFragment extends Fragment {
     private Context context;
     View fragmentView;
     //views which need to be filled
