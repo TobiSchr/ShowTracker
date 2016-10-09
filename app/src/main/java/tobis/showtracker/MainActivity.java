@@ -23,6 +23,9 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle drawerToggle;
+    private NavigationView nvDrawer;
+    private NavigationView.OnNavigationItemSelectedListener navViewListener;
+    private Bundle args; //be careful, reset to null after usage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        args = null;
         // Set a Toolbar to replace the ActionBar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,10 +46,9 @@ public class MainActivity extends AppCompatActivity {
         mDrawer.addDrawerListener(drawerToggle);
 
         // Find our drawer view
-        NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        // Setup drawer view
+        nvDrawer = (NavigationView) findViewById(R.id.nvView);
         nvDrawer.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
+                navViewListener = new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         selectDrawerItem(menuItem);
@@ -79,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
             default:
                 fragmentClass = WatchListFragment.class;
         }
-
-        swapFragment(fragmentClass, null);
+        swapFragment(fragmentClass, args);
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
@@ -128,9 +130,10 @@ public class MainActivity extends AppCompatActivity {
         int owner = extras.getInt("owner");
         switch (owner){
             case 1: //addNewShowFragment click on fab_add
-                Bundle args = new Bundle();
+                args = new Bundle();
                 args.putStringArray("season", extras.getStringArray("season"));
-                swapFragment(WatchListFragment.class, args);
+                navViewListener.onNavigationItemSelected(nvDrawer.getMenu().getItem(0));
+                args = null;
                 break;
             default:
                 break;

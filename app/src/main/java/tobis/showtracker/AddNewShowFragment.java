@@ -1,5 +1,6 @@
 package tobis.showtracker;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import org.joda.time.LocalDate;
  */
 public class AddNewShowFragment extends Fragment {
     private Context context;
+    View fragmentView;
     //views which need to be filled
     private EditText etTitle;
     private EditText etSeasonNumber;
@@ -54,13 +57,13 @@ public class AddNewShowFragment extends Fragment {
             return null;
         }
         Log.i("onCreateView", "addNew");
-        View view = inflater.inflate(R.layout.add_new_fragment, container, false);
-        context = view.getContext();
-        etTitle = (EditText) view.findViewById(R.id.title);
-        etSeasonNumber = (EditText) view.findViewById(R.id.seasonNumber);
-        tvStartDate = (TextView) view.findViewById(R.id.startdate);
-        etInterval = (EditText) view.findViewById(R.id.interval);
-        etEpisodeNumbers = (EditText) view.findViewById(R.id.episodeNumbers);
+        fragmentView = inflater.inflate(R.layout.add_new_fragment, container, false);
+        context = fragmentView.getContext();
+        etTitle = (EditText) fragmentView.findViewById(R.id.title);
+        etSeasonNumber = (EditText) fragmentView.findViewById(R.id.seasonNumber);
+        tvStartDate = (TextView) fragmentView.findViewById(R.id.startdate);
+        etInterval = (EditText) fragmentView.findViewById(R.id.interval);
+        etEpisodeNumbers = (EditText) fragmentView.findViewById(R.id.episodeNumbers);
         //cbBreak = (CheckBox) view.findViewById(R.id.hasBreak);
         //etBeforeBreak = (Spinner) view.findViewById(R.id.before_break);
         //etAfterBreak = (Spinner) view.findViewById(R.id.after_break);
@@ -78,11 +81,15 @@ public class AddNewShowFragment extends Fragment {
             });
         }
 
-        final FloatingActionButton fab_add = (FloatingActionButton) view.findViewById(R.id.fab_add);
+        final FloatingActionButton fab_add = (FloatingActionButton) fragmentView.findViewById(R.id.fab_add);
         if (fab_add != null) {
             fab_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // Check if no view has focus:
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(fragmentView.getWindowToken(), 0);
+
                     String showName = etTitle.getText().toString().trim();
                     String seasonNumberStr = etSeasonNumber.getText().toString();
                     String intervalStr = etInterval.getText().toString();
@@ -129,7 +136,7 @@ public class AddNewShowFragment extends Fragment {
             });
         }
 
-        return view;
+        return fragmentView;
     }
 
     @Override
