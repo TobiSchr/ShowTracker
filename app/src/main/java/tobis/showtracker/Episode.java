@@ -13,6 +13,7 @@ class Episode {
     private LocalDate date;
     private boolean watchedStatus; //only true, when its selected
     private int seasonID;
+    private int interval;
 
     /**
      * @param showName      name of the show
@@ -22,13 +23,14 @@ class Episode {
      * @param watchedStatus status of the episode seen = true, unseen = false
      * @param seasonID      used to identify episodes of a season
      */
-    Episode(String showName, int seasonNumber, int episodeNumber, LocalDate date, boolean watchedStatus, int seasonID) {
+    Episode(String showName, int seasonNumber, int episodeNumber, LocalDate date, boolean watchedStatus, int seasonID, int interval) {
         this.showName = showName;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.date = date;
         this.watchedStatus = watchedStatus;
         this.seasonID = seasonID;
+        this.interval = interval;
     }
 
     String getShowName() {
@@ -47,6 +49,9 @@ class Episode {
         return date;
     }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
     boolean isWatchedStatus() {
         return watchedStatus;
     }
@@ -55,8 +60,12 @@ class Episode {
         this.watchedStatus = watchedStatus;
     }
 
-    public int getSeasonID() {
+    int getSeasonID() {
         return seasonID;
+    }
+
+    public int getInterval() {
+        return interval;
     }
 
     /**

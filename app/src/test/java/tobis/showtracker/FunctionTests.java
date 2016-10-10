@@ -46,9 +46,9 @@ public class FunctionTests {
 
         assertEquals(3, watchList.size());
 
-        Episode result1 = new Episode("Game Of Thrones", 5, 1, new LocalDate(2016, 4, 2), false, 1);
-        Episode result2 = new Episode("Game Of Thrones", 5, 2, new LocalDate(2016, 4, 9), false, 1);
-        Episode result3 = new Episode("Game Of Thrones", 5, 3, new LocalDate(2016, 4, 16), false, 1);
+        Episode result1 = new Episode("Game Of Thrones", 5, 1, new LocalDate(2016, 4, 2), false, 1, 7);
+        Episode result2 = new Episode("Game Of Thrones", 5, 2, new LocalDate(2016, 4, 9), false, 1, 7);
+        Episode result3 = new Episode("Game Of Thrones", 5, 3, new LocalDate(2016, 4, 16), false, 1, 7);
         List<Episode> testList = new ArrayList<>();
         testList.add(result1);
         testList.add(result2);
@@ -77,8 +77,8 @@ public class FunctionTests {
         assertEquals(2, releasedList.size());
         assertEquals(4, watchList.size());
 
-        Episode result1 = new Episode("Test Show123", 2, 1, yesterday, false, 2);
-        Episode result2 = new Episode("Test Show123", 2, 2, yesterday.plusDays(1), false, 2);
+        Episode result1 = new Episode("Test Show123", 2, 1, yesterday, false, 2, 1);
+        Episode result2 = new Episode("Test Show123", 2, 2, yesterday.plusDays(1), false, 2, 1);
         List<Episode> testList = new ArrayList<>();
         testList.add(result1);
         testList.add(result2);

@@ -36,7 +36,7 @@ class WatchListFunctions {
 
         Episode e;
         for (int i = 1; i <= episodeNumbers; i++) {
-            e = new Episode(showName, seasonNum, i, startDate, false, seasonId);
+            e = new Episode(showName, seasonNum, i, startDate, false, seasonId, interval);
             //Log.i("EPISODE_ADDED", e.toString());
             listOfSeason.add(e);
             startDate = startDate.plusDays(interval);

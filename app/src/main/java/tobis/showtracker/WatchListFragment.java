@@ -1,12 +1,14 @@
 package tobis.showtracker;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +26,7 @@ public class WatchListFragment extends Fragment {
     private WatchListFunctions wlFunc; //functions which don't require android
     private EpisodeRecycleAdapter mAdapter;
     private List<Episode> watchList; //contains all unseen episodes
-    private List<Episode> releasedEpisodeList; //contains all unseen & released episodes
+    public static List<Episode> releasedEpisodeList; //contains all unseen & released episodes
     private RecyclerView mRecyclerView;
     private Context context;
     EpisodeJSON ejson;
@@ -101,7 +103,6 @@ public class WatchListFragment extends Fragment {
 
         //load released episodes of watchlist in releasedEpisodeList
         releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
-
         mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);
         mRecyclerView.setAdapter(mAdapter);
 

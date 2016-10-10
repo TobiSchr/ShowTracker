@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.joda.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,38 +104,47 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             @Override
             public boolean onLongClick(View view) {
                 //TODO replace with xml
-                //TODO get informations of view
                 RecyclerView mRecyclerView = (RecyclerView) view.getRootView().findViewById(R.id.watchlistRV);
                 int itemPosition = mRecyclerView.getChildLayoutPosition(view);
-                Episode episodeItem = episodes.get(itemPosition);
+                final Episode episodeItem = episodes.get(itemPosition);
+                final int interval = episodeItem.getInterval();
+                final LocalDate episodeDate = episodeItem.getDate();
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-                String title = "Postpone '" + episodeItem.getShowName() + " " + episodeItem.getSeasonEpisodeAsString() + "'";
-                String msg = "Old date: " + episodeItem.getDateAsString() + "\n" + "Select new Date";
+                String title = "Add break for season\n'" + episodeItem.getShowName() + " " + episodeItem.getSeasonEpisodeAsString() + "'";
+                String msg = "Old Date: " + episodeItem.getDateAsString() + "\n" + "Select new Date";
                 alert.setTitle(title);
                 alert.setMessage(msg);
 
                 // Set an EditText view to get user input
-                Integer intArray[] = new Integer[100];
-                for (int i = 0; i < 100; i++) {
-                    intArray[i] = i + 1;
+                String dateStringArray[] = new String[52];
+                for (int i = 0; i < 52; i++) {
+                    LocalDate ld = episodeDate.plusDays(interval * (i + 1));
+                    String epStr = ld.toString("dd.MM.yy");
+                    dateStringArray[i] = epStr;
                 }
                 final Spinner picker = new Spinner(mContext);
-                ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(mContext, android.R.layout.simple_spinner_item, intArray);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, dateStringArray);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 picker.setAdapter(adapter);
                 alert.setView(picker);
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        int i = (int) picker.getSelectedItem();
-                        Log.d("", "Pin Value : " + i);
+                        int days = (picker.getSelectedItemPosition() + 1) * interval;
+                        for (Episode e : episodes) {
+                            if (e.getSeasonID() == episodeItem.getSeasonID()
+                                    && !e.getDate().isBefore(episodeItem.getDate())) {
+                                e.setDate(e.getDate().plusDays(days));
+                            }
+                        }
+                        WatchListFragment.releasedEpisodeList = episodes;
+                        notifyDataSetChanged();
                     }
                 });
 
                 alert.setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
-
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         });
@@ -142,7 +153,6 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                 return true; //return true so no onClick event happens
             }
         });
-
         return new ViewHolder(v);
     }
 
