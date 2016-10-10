@@ -12,17 +12,7 @@ class Episode {
     private int episodeNumber;
     private LocalDate date;
     private boolean watchedStatus; //only true, when its selected
-
-    //TODO clean unused later
-    /*
-    Episode() {
-        this.showName = null;
-        this.seasonNumber = 0;
-        this.episodeNumber = 0;
-        this.date = null;
-        this.watchedStatus = false;
-    }
-    */
+    private int seasonID;
 
     /**
      * @param showName      name of the show
@@ -30,13 +20,15 @@ class Episode {
      * @param episodeNumber episode number
      * @param date          airtime of the episode format "01.01.2017"
      * @param watchedStatus status of the episode seen = true, unseen = false
+     * @param seasonID      used to identify episodes of a season
      */
-    Episode(String showName, int seasonNumber, int episodeNumber, LocalDate date, boolean watchedStatus) {
+    Episode(String showName, int seasonNumber, int episodeNumber, LocalDate date, boolean watchedStatus, int seasonID) {
         this.showName = showName;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.date = date;
         this.watchedStatus = watchedStatus;
+        this.seasonID = seasonID;
     }
 
     String getShowName() {
@@ -55,35 +47,16 @@ class Episode {
         return date;
     }
 
-    /*
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setDate(int day, int month, int year) {
-        this.date = new LocalDate(year, month, day);
-    }
-    */
-
-    /*
-     * @param date expects string in format "dd-MM-yyyy"
-     */
-    /*
-    public void setDate(String date) {
-        String[] parts = date.split("-");
-        int day = Integer.parseInt(parts[0]);
-        int month = Integer.parseInt(parts[1]);
-        int year = Integer.parseInt(parts[2]);
-        this.date = new LocalDate(year, month, day);
-    }
-    */
-
     boolean isWatchedStatus() {
         return watchedStatus;
     }
 
     void setWatchedStatus(boolean watchedStatus) {
         this.watchedStatus = watchedStatus;
+    }
+
+    public int getSeasonID() {
+        return seasonID;
     }
 
     /**
@@ -134,11 +107,11 @@ class Episode {
     @Override
     public String toString() {
         String ret = "";
-        ret += showName + "(";
-        ret += getSeasonEpisodeAsString();
-        ret += " [" + getDateAsString() + "]";
-        ret += ", seen:" + String.valueOf(watchedStatus);
-        ret += ")";
+        ret += showName;
+        ret += ", " + getSeasonEpisodeAsString();
+        ret += ", " + getDateAsString();
+        ret += ", watched=" + String.valueOf(watchedStatus);
+        ret += ", id=" + String.valueOf(seasonID);
         return ret;
     }
 }

@@ -21,7 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class WatchListFragment extends Fragment {
-    private WatchListFunctions wlFunc; //functons which dont require android
+    private WatchListFunctions wlFunc; //functions which don't require android
     private EpisodeRecycleAdapter mAdapter;
     private List<Episode> watchList; //contains all unseen episodes
     private List<Episode> releasedEpisodeList; //contains all unseen & released episodes
@@ -33,7 +33,6 @@ public class WatchListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        wlFunc = new WatchListFunctions();
     }
 
     @Nullable
@@ -76,19 +75,30 @@ public class WatchListFragment extends Fragment {
         ejson = new EpisodeJSON(context);
         watchList = ejson.readFromFile();
 
+        List<Integer> usedIdList = new ArrayList<>();
+        for (Episode e : watchList) {
+            e.setWatchedStatus(false);
+            usedIdList.add(e.getSeasonID());
+        }
+
+        int unusedId = 0;
+        while (usedIdList.contains(unusedId)) {
+            unusedId++;
+        }
+
+        wlFunc = new WatchListFunctions();
+
         //if was opened by addnewshowfragment
         Bundle args = getArguments();
         if(args != null){
             String season[] = args.getStringArray("season");
             if(season != null){
-                watchList.addAll(wlFunc.getEpisodesfromSeasonString(season));
+                watchList.addAll(wlFunc.getEpisodesfromSeasonString(season, unusedId));
                 Collections.sort(watchList, comparator_date);
                 writeWatchListToEJSON();
             }
         }
-        for (Episode e : watchList) {
-            e.setWatchedStatus(false);
-        }
+
         //load released episodes of watchlist in releasedEpisodeList
         releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
 

@@ -16,7 +16,7 @@ class WatchListFunctions {
      * ["showName","seasonNum","episodeNumbers","dd.MM.yyyy","interval"]
      * i.e.  ["Game Of Thrones","5","10","02.04.2016","7"]
      */
-    List<Episode> getEpisodesfromSeasonString(String[] seasonArray) {
+    List<Episode> getEpisodesfromSeasonString(String[] seasonArray, int seasonId) {
         if (seasonArray.length != 5) {
             //Log.e("seasonArray length", String.valueOf(seasonArray.length));
             return null;
@@ -36,7 +36,7 @@ class WatchListFunctions {
 
         Episode e;
         for (int i = 1; i <= episodeNumbers; i++) {
-            e = new Episode(showName, seasonNum, i, startDate, false);
+            e = new Episode(showName, seasonNum, i, startDate, false, seasonId);
             //Log.i("EPISODE_ADDED", e.toString());
             listOfSeason.add(e);
             startDate = startDate.plusDays(interval);

@@ -42,13 +42,13 @@ public class FunctionTests {
     @Test
     public void test_getEpisodesFromSeasonString() throws Exception {
         String seasonArray[] = {"Game Of Thrones", "5", "3", "02.04.16", "7"};
-        watchList = wlf.getEpisodesfromSeasonString(seasonArray);
+        watchList = wlf.getEpisodesfromSeasonString(seasonArray, 1);
 
         assertEquals(3, watchList.size());
 
-        Episode result1 = new Episode("Game Of Thrones", 5, 1, new LocalDate(2016, 4, 2), false);
-        Episode result2 = new Episode("Game Of Thrones", 5, 2, new LocalDate(2016, 4, 9), false);
-        Episode result3 = new Episode("Game Of Thrones", 5, 3, new LocalDate(2016, 4, 16), false);
+        Episode result1 = new Episode("Game Of Thrones", 5, 1, new LocalDate(2016, 4, 2), false, 1);
+        Episode result2 = new Episode("Game Of Thrones", 5, 2, new LocalDate(2016, 4, 9), false, 1);
+        Episode result3 = new Episode("Game Of Thrones", 5, 3, new LocalDate(2016, 4, 16), false, 1);
         List<Episode> testList = new ArrayList<>();
         testList.add(result1);
         testList.add(result2);
@@ -71,14 +71,14 @@ public class FunctionTests {
         LocalDate yesterday = new LocalDate().minusDays(1);
         String yStr = yesterday.toString("dd.MM.yy");
         String seasonArray[] = {"Test Show123", "2", "4", yStr, "1"};
-        watchList = wlf.getEpisodesfromSeasonString(seasonArray);
+        watchList = wlf.getEpisodesfromSeasonString(seasonArray, 2);
         List<Episode> releasedList = wlf.getReleasedEpisodeList(watchList);
 
         assertEquals(2, releasedList.size());
         assertEquals(4, watchList.size());
 
-        Episode result1 = new Episode("Test Show123", 2, 1, yesterday, false);
-        Episode result2 = new Episode("Test Show123", 2, 2, yesterday.plusDays(1), false);
+        Episode result1 = new Episode("Test Show123", 2, 1, yesterday, false, 2);
+        Episode result2 = new Episode("Test Show123", 2, 2, yesterday.plusDays(1), false, 2);
         List<Episode> testList = new ArrayList<>();
         testList.add(result1);
         testList.add(result2);
