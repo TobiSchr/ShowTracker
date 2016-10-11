@@ -99,7 +99,6 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             }
         });
 
-        //TODO longclick listener to postpone episodes for xx days
         v.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -128,28 +127,23 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 picker.setAdapter(adapter);
                 alert.setView(picker);
-
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        int days = (picker.getSelectedItemPosition() + 1) * interval;
-                        for (Episode e : episodes) {
-                            if (e.getSeasonID() == episodeItem.getSeasonID()
-                                    && !e.getDate().isBefore(episodeItem.getDate())) {
-                                e.setDate(e.getDate().plusDays(days));
-                            }
-                        }
-                        WatchListFragment.releasedEpisodeList = episodes;
-                        notifyDataSetChanged();
-                    }
-                });
-
-                alert.setNegativeButton("Cancel",
+                alert.setCancelable(true);
+                alert.setNeutralButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog, int id) {
+                                int days = (picker.getSelectedItemPosition() + 1) * interval;
+                                for (Episode e : episodes) {
+                                    if (e.getSeasonID() == episodeItem.getSeasonID()
+                                            && !e.getDate().isBefore(episodeItem.getDate())) {
+                                        e.setDate(e.getDate().plusDays(days));
+                                    }
+                                }
+                                //TODO after removing releasedEL, call watchlist here
+                                WatchListFragment.releasedEpisodeList = episodes;
+                                notifyDataSetChanged();
                             }
                         });
                 alert.show();
-
                 return true; //return true so no onClick event happens
             }
         });
@@ -169,11 +163,11 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             Episode item = episodes.get(itemPos);
             if (item.isWatchedStatus()) {
                 //true => seen
-                View view = mRecyclerView.getChildAt(itemPos); //TODO nullpointer probably here
+                View view = mRecyclerView.getChildAt(itemPos);
                 ImageView eye_image;
-                if (view == null)//dont know if this fixes the problem
+                if (view == null)//dont know if this fixes the problem //TODO better nullpointer fix
                     break;
-                eye_image = (ImageView) view.findViewById(R.id.eye_image); //TODO nullpointer
+                eye_image = (ImageView) view.findViewById(R.id.eye_image);
                 //perform changes for unselected state
                 item.setWatchedStatus(false);
                 eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
@@ -189,9 +183,10 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
     public void onBindViewHolder(ViewHolder holder, int pos) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textViewName.setText(episodes.get(pos).getShowName());
-        holder.textViewNumbers.setText(episodes.get(pos).getSeasonEpisodeAsString());
-        holder.textViewDate.setText(episodes.get(pos).getDateAsString());
+        Episode episode = episodes.get(pos);
+        holder.textViewName.setText(episode.getShowName());
+        holder.textViewNumbers.setText(episode.getSeasonEpisodeAsString());
+        holder.textViewDate.setText(episode.getDateAsString());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
