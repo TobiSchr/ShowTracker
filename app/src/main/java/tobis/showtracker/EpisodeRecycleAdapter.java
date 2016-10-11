@@ -139,8 +139,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                                     }
                                 }
                                 //TODO after removing releasedEL, call watchlist here
-                                WatchListFragment.releasedEpisodeList = episodes;
-                                notifyDataSetChanged();
+                                WatchListFragment.updateList(episodes);
                             }
                         });
                 alert.show();
@@ -187,6 +186,17 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
         holder.textViewName.setText(episode.getShowName());
         holder.textViewNumbers.setText(episode.getSeasonEpisodeAsString());
         holder.textViewDate.setText(episode.getDateAsString());
+
+        LocalDate today = new LocalDate();
+        LocalDate epDate = episode.getDate();
+        //true of epDate is before or equals today
+        if (epDate.compareTo(today) > 0) {
+            //holder.itemView.setBackgroundColor(Color.LTGRAY);
+            holder.textViewName.setTextColor(Color.LTGRAY);
+            holder.textViewNumbers.setTextColor(Color.LTGRAY);
+            holder.textViewDate.setTextColor(Color.LTGRAY);
+            holder.imageViewEye.setColorFilter(Color.LTGRAY);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

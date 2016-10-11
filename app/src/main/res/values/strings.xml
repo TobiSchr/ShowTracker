@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">ShowTracker</string>
 
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="drawer_close" translatable="false">Close navigation drawer</string>
 
     <string name="action_sort_by_name">Sort by Name</string>
     <string name="action_sort_by_date">Sort by Date</string>
     <string name="action_unselect_all">Unselect All</string>
 
-    <string name="image_unseen">Unseen</string>
+    <string name="image_unseen" translatable="false">Unseen</string>
 
     <!-- days -->
     <string name="monday">(Mon)</string>
