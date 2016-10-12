@@ -11,5 +11,7 @@
     <dimen name="rv_margin_bot">80dp</dimen>
     <dimen name="divider_space">2dp</dimen>
 
+    <dimen name="text_size">18sp</dimen>
+
 
 </resources>

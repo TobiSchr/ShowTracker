@@ -7,12 +7,10 @@ import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,6 +49,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
         // each data item is just a string in this case
         TextView textViewName, textViewNumbers, textViewDate;
         ImageView imageViewEye;
+        View LayoutView;
 
         ViewHolder(View v) {
             super(v);
@@ -58,6 +57,7 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             textViewNumbers = (TextView)v.findViewById(R.id.seasonepisodenumbers);
             textViewDate = (TextView)v.findViewById(R.id.date);
             imageViewEye = (ImageView) v.findViewById(R.id.eye_image);
+            LayoutView = v;
         }
     }
 
@@ -73,25 +73,23 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             public void onClick(View view) {
                 RecyclerView mRecyclerView = (RecyclerView) view.getRootView().findViewById(R.id.watchlistRV);
                 int itemPosition = mRecyclerView.getChildLayoutPosition(view);
+                //int itemPosition = mRecyclerView.indexOfChild(view);
                 Episode episodeItem = episodes.get(itemPosition);
                 FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab_save);
-                ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image);
 
                 if (episodeItem.isWatchedStatus()) {
-                    //true => seen
+                    //was true(selected/watched) -> set to false(unselected/unwatched)
                     episodeItem.setWatchedStatus(false);
-                    eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
                     counterOfActiveSwitches--;
-                    view.setBackgroundColor(Color.TRANSPARENT);
+                    setDesignToUnselected(view);
                     if (counterOfActiveSwitches <= 0 && fab.getVisibility() == View.VISIBLE) {
                         fab.hide();
                     }
                 } else {
-                    //false => unseen
+                    //was false(unselected/unwatched) -> set to true(selected/watched)
                     episodeItem.setWatchedStatus(true);
-                    eye_image.setImageResource(R.drawable.ic_eye_seen_v2);
                     counterOfActiveSwitches++;
-                    view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorSelected));
+                    setDesignToSelected(view);
                     if (counterOfActiveSwitches > 0 && fab.getVisibility() != View.VISIBLE) {
                         fab.show();
                     }
@@ -149,6 +147,46 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
         return new ViewHolder(v);
     }
 
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return episodes.size();
+    }
+
+    // Replace the contents of a view (invoked by the layout manager)
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int pos) {
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+        Episode episode = episodes.get(pos);
+        holder.textViewName.setText(episode.getShowName());
+        holder.textViewNumbers.setText(episode.getSeasonEpisodeAsString());
+        holder.textViewDate.setText(episode.getDateAsString());
+
+        /*********set Text Color*****************/
+        LocalDate today = new LocalDate();
+        LocalDate epDate = episode.getDate();
+        int color;
+        if (epDate.compareTo(today) > 0) {
+            color = ContextCompat.getColor(mContext, R.color.colorUnreleased);
+        } else {
+            color = ContextCompat.getColor(mContext, R.color.colorReleased);
+        }
+        holder.textViewName.setTextColor(color);
+        holder.textViewNumbers.setTextColor(color);
+        holder.textViewDate.setTextColor(color);
+        holder.imageViewEye.setColorFilter(color);
+        View view = holder.LayoutView;
+
+        /*********set Background*****************/
+        if (episode.isWatchedStatus()) {
+            setDesignToSelected(view);
+        } else {
+            setDesignToUnselected(view);
+        }
+    }
+
     /**
      * unselects all items of mRecyclerView
      * unselect means remove background color,
@@ -163,45 +201,29 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
             if (item.isWatchedStatus()) {
                 //true => seen
                 View view = mRecyclerView.getChildAt(itemPos);
-                ImageView eye_image;
                 if (view == null)//dont know if this fixes the problem //TODO better nullpointer fix
                     break;
-                eye_image = (ImageView) view.findViewById(R.id.eye_image);
+
                 //perform changes for unselected state
                 item.setWatchedStatus(false);
-                eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
                 counterOfActiveSwitches--;
-                view.setBackgroundColor(Color.TRANSPARENT);
+                setDesignToUnselected(view);
             }
         }
         fab.hide();
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int pos) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        Episode episode = episodes.get(pos);
-        holder.textViewName.setText(episode.getShowName());
-        holder.textViewNumbers.setText(episode.getSeasonEpisodeAsString());
-        holder.textViewDate.setText(episode.getDateAsString());
-
-        LocalDate today = new LocalDate();
-        LocalDate epDate = episode.getDate();
-        //true of epDate is before or equals today
-        if (epDate.compareTo(today) > 0) {
-            //holder.itemView.setBackgroundColor(Color.LTGRAY);
-            holder.textViewName.setTextColor(Color.LTGRAY);
-            holder.textViewNumbers.setTextColor(Color.LTGRAY);
-            holder.textViewDate.setTextColor(Color.LTGRAY);
-            holder.imageViewEye.setColorFilter(Color.LTGRAY);
-        }
+    private void setDesignToSelected(View view) {
+        //false => unseen
+        ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image);
+        eye_image.setImageResource(R.drawable.ic_eye_seen_v2);
+        view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorSelected));
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
-    @Override
-    public int getItemCount() {
-        return episodes.size();
+    private void setDesignToUnselected(View view) {
+        //true => seen
+        ImageView eye_image = (ImageView) view.findViewById(R.id.eye_image);
+        eye_image.setImageResource(R.drawable.ic_eye_unseen_v2);
+        view.setBackgroundColor(Color.TRANSPARENT);
     }
 }

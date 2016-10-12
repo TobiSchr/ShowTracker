@@ -3,5 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#0c45ca</color>
-    <color name="colorSelected">#f700ff</color>
+    <color name="colorSelected">#9fb7fd</color>
+    <color name="colorReleased">#ff444444</color> <!--equals Color.DKGRAY -->
+    <color name="colorUnreleased">#ffcccccc</color> <!--equals Color.LTGRAY -->
 </resources>

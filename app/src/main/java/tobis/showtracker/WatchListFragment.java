@@ -21,18 +21,18 @@ import java.util.Comparator;
 import java.util.List;
 
 public class WatchListFragment extends Fragment {
-    private WatchListFunctions wlFunc; //functions which don't require android
+    EpisodeJSON ejson;
+    private static int sortingType; //0 = by Date, 1 = by Name
+    private static List<Episode> watchList; //contains all unseen episodes
     private static EpisodeRecycleAdapter mAdapter;
-    private List<Episode> watchList; //contains all unseen episodes
-    public static List<Episode> releasedEpisodeList; //contains all unseen & released episodes
     private static RecyclerView mRecyclerView;
     private static Context context;
-    EpisodeJSON ejson;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        sortingType = 0;
     }
 
     @Nullable
@@ -86,7 +86,7 @@ public class WatchListFragment extends Fragment {
             unusedId++;
         }
 
-        wlFunc = new WatchListFunctions();
+        WatchListFunctions wlFunc = new WatchListFunctions();
 
         //if was opened by addnewshowfragment
         Bundle args = getArguments();
@@ -94,15 +94,16 @@ public class WatchListFragment extends Fragment {
             String season[] = args.getStringArray("season");
             if(season != null){
                 watchList.addAll(wlFunc.getEpisodesfromSeasonString(season, unusedId));
-                Collections.sort(watchList, comparator_date);
+                sortWatchList();
                 writeWatchListToEJSON();
             }
         }
 
         //load released episodes of watchlist in releasedEpisodeList
-        releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
-        mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);
-        mRecyclerView.setAdapter(mAdapter);
+        //releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
+        //mAdapter = new EpisodeRecycleAdapter(context, watchList);
+        //mRecyclerView.setAdapter(mAdapter);
+        updateList(null);
 
         if (fab_save != null) {
             fab_save.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +118,11 @@ public class WatchListFragment extends Fragment {
                     }
                     mAdapter.unselectAllItems(mRecyclerView);
                     watchList.removeAll(removeList);
-                    releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
+                    //releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
                     //TODO WHY
-                    mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);//ugly fix
-                    mRecyclerView.setAdapter(mAdapter); // should have worked with notifydatasetchanged
+                    //mAdapter = new EpisodeRecycleAdapter(context, watchList);//ugly fix
+                    //mRecyclerView.setAdapter(mAdapter); // should have worked with notifydatasetchanged
+                    updateList(null);
                     writeWatchListToEJSON();
                 }
             });
@@ -142,15 +144,15 @@ public class WatchListFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_by_name) {
-            Collections.sort(releasedEpisodeList, comparator_name);
+            sortingType = 1;
+            sortWatchList();
             mAdapter.notifyDataSetChanged();
             return true;
         }
 
         if (id == R.id.action_sort_by_date) {
-
-
-            Collections.sort(releasedEpisodeList, comparator_date);
+            sortingType = 0;
+            sortWatchList();
             mAdapter.notifyDataSetChanged();
             return true;
         }
@@ -168,7 +170,20 @@ public class WatchListFragment extends Fragment {
     /**********************************************************************
      * Compare Functions for sorting
      **********************************************************************/
-    Comparator<Episode> comparator_name = new Comparator<Episode>() {
+    private static void sortWatchList() {
+        switch (sortingType) {
+            case 0:
+                Collections.sort(watchList, comparator_date);
+                break;
+            case 1:
+                Collections.sort(watchList, comparator_name);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private static Comparator<Episode> comparator_name = new Comparator<Episode>() {
         @Override
         public int compare(Episode lhs, Episode rhs) {
             int compare_score;
@@ -181,7 +196,7 @@ public class WatchListFragment extends Fragment {
         }
     };
 
-    Comparator<Episode> comparator_date = new Comparator<Episode>() {
+    private static Comparator<Episode> comparator_date = new Comparator<Episode>() {
         @Override
         public int compare(Episode lhs, Episode rhs) {
             int compare_score;
@@ -202,8 +217,10 @@ public class WatchListFragment extends Fragment {
     }
 
     public static void updateList(List<Episode> episodeList) {
-        releasedEpisodeList = episodeList;
-        mAdapter = new EpisodeRecycleAdapter(context, releasedEpisodeList);
+        if (episodeList != null)
+            watchList = episodeList;
+        mAdapter = new EpisodeRecycleAdapter(context, watchList);
+        sortWatchList();
         mRecyclerView.setAdapter(mAdapter);
     }
 }
