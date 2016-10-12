@@ -114,9 +114,9 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                 alert.setMessage(msg);
 
                 // Set an EditText view to get user input
-                String dateStringArray[] = new String[52];
-                for (int i = 0; i < 52; i++) {
-                    LocalDate ld = episodeDate.plusDays(interval * (i + 1));
+                String dateStringArray[] = new String[105];
+                for (int i = 0; i < 105; i++) {
+                    LocalDate ld = episodeDate.plusDays(interval * (i - 52));
                     String epStr = ld.toString("dd.MM.yy");
                     dateStringArray[i] = epStr;
                 }
@@ -124,12 +124,13 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, dateStringArray);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 picker.setAdapter(adapter);
+                picker.setSelection(52);
                 alert.setView(picker);
                 alert.setCancelable(true);
                 alert.setNeutralButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                int days = (picker.getSelectedItemPosition() + 1) * interval;
+                                int days = (picker.getSelectedItemPosition() - 52) * interval;
                                 for (Episode e : episodes) {
                                     if (e.getSeasonID() == episodeItem.getSeasonID()
                                             && !e.getDate().isBefore(episodeItem.getDate())) {
