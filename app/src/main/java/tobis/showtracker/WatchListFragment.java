@@ -1,12 +1,14 @@
 package tobis.showtracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -118,10 +120,6 @@ public class WatchListFragment extends Fragment {
                     }
                     mAdapter.unselectAllItems(mRecyclerView);
                     watchList.removeAll(removeList);
-                    //releasedEpisodeList = wlFunc.getReleasedEpisodeList(watchList);
-                    //TODO WHY
-                    //mAdapter = new EpisodeRecycleAdapter(context, watchList);//ugly fix
-                    //mRecyclerView.setAdapter(mAdapter); // should have worked with notifydatasetchanged
                     updateList(null);
                     writeWatchListToEJSON();
                 }
@@ -141,27 +139,31 @@ public class WatchListFragment extends Fragment {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_sort_by_name) {
-            sortingType = 1;
-            sortWatchList();
-            mAdapter.notifyDataSetChanged();
-            return true;
+        switch (id) {
+            case R.id.action_add_new:
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("owner", 2);
+                intent.putExtra("switchToAddNew", true);
+                startActivity(intent);
+                return true;
+            case R.id.action_sort_by_name:
+                sortingType = 1;
+                sortWatchList();
+                mAdapter.notifyDataSetChanged();
+                return true;
+            case R.id.action_sort_by_date:
+                sortingType = 0;
+                sortWatchList();
+                mAdapter.notifyDataSetChanged();
+                return true;
+            case R.id.action_unselect_all:
+                mAdapter.unselectAllItems(mRecyclerView);
+                return true;
+            default:
+                Log.e("optionItemSelected", "unknown" + String.valueOf(id));
+                break;
         }
-
-        if (id == R.id.action_sort_by_date) {
-            sortingType = 0;
-            sortWatchList();
-            mAdapter.notifyDataSetChanged();
-            return true;
-        }
-
-        if (id == R.id.action_unselect_all) {
-            mAdapter.unselectAllItems(mRecyclerView);
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
     /**********************************************************************
@@ -216,9 +218,12 @@ public class WatchListFragment extends Fragment {
         }
     }
 
-    public static void updateList(List<Episode> episodeList) {
-        if (episodeList != null)
-            watchList = episodeList;
+    /**
+     * update list with changedList and sort it
+     */
+    public static void updateList(List<Episode> changedList) {
+        if (changedList != null)
+            watchList = changedList;
         mAdapter = new EpisodeRecycleAdapter(context, watchList);
         sortWatchList();
         mRecyclerView.setAdapter(mAdapter);

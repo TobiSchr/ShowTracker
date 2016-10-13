@@ -5,6 +5,7 @@ Eingaben beschränkung (int, titel länge)
 Auswahl aufheben nach scrollen
 onLongClick button hinzufügen um ganze Season der Episode löschen
 umbenennen & alles in values/string
+placeholder in addnew im toolbar menu entfernen
 
 After fixes:
 About Screen

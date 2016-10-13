@@ -125,9 +125,6 @@ public class AddNewSeasonFragment extends Fragment {
                             intervalStr
                     };
 
-
-                    //TODO put episode in intent and switch back to watchlist/showoverview
-
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra("owner", 1);

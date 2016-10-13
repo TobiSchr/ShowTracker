@@ -103,38 +103,6 @@
                 android:lines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <!--
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15sp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Break" />
-                <CheckBox
-                    android:id="@+id/hasBreak"
-                    android:layout_marginStart="10sp"
-                    android:layout_marginLeft="10sp"
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <Spinner
-                android:id="@+id/before_break"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <Spinner
-                android:id="@+id/after_break"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            -->
         </LinearLayout>
     </ScrollView>
 
@@ -145,6 +113,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/ic_menu_add"
+        android:src="@drawable/ic_add_black_24dp"
+        android:tint="#FFFFFF"
         app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

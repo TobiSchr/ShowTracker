@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 /**
  * Created by TobiX on 04.09.2016.
@@ -126,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         /* owner
          * 0 = MainActivity
-         * 1 = addNewSeasonFragment*/
+         * 1 = addNewSeasonFragment
+         * 2 = WatchListFragment*/
         int owner = extras.getInt("owner");
         switch (owner){
             case 1: //addNewSeasonFragment click on fab_add
@@ -135,7 +137,13 @@ public class MainActivity extends AppCompatActivity {
                 navViewListener.onNavigationItemSelected(nvDrawer.getMenu().getItem(0));
                 args = null;
                 break;
+            case 2:
+                if (extras.getBoolean("switchToAddNew")) {
+                    navViewListener.onNavigationItemSelected(nvDrawer.getMenu().getItem(1));
+                }
+                break;
             default:
+                Log.e("Main_OnNewIntent", intent.toString());
                 break;
         }
     }
