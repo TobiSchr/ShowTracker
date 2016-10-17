@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * Created by TobiX on 04.09.2016.
@@ -57,9 +58,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.flContent, new WatchListFragment());
-        tx.commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.flContent, new WatchListFragment())
+                    .commit();
+        }
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -162,6 +165,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flContent, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        String text = "stacksize:" + String.valueOf(getFragmentManager().getBackStackEntryCount());
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 }
