@@ -173,9 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        String text = "stacksize:" + String.valueOf(getFragmentManager().getBackStackEntryCount());
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             super.onBackPressed();
         } else {
