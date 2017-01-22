@@ -159,6 +159,7 @@ public class WatchListFragment extends Fragment {
                 return true;
             case R.id.action_unselect_all:
                 mAdapter.unselectAllItems(mRecyclerView);
+                mAdapter.notifyDataSetChanged();
                 return true;
             default:
                 Log.e("optionItemSelected", "unknown" + String.valueOf(id));

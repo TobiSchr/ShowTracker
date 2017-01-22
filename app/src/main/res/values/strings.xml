@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShowTracker</string>
+    <string name="app_name">B.E.R.T.</string>
 
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
     <string name="drawer_close" translatable="false">Close navigation drawer</string>

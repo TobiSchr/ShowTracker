@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ShowTracker</string>
     <string name="action_sort_by_date">Sortieren nach Datum</string>
     <string name="action_sort_by_name">Sortieren nach Name</string>
     <string name="action_unselect_all">Auswahl aufheben</string>

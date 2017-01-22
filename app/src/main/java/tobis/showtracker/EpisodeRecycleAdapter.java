@@ -131,9 +131,13 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 int days = (picker.getSelectedItemPosition() - 52) * interval;
+                                int itemID = episodeItem.getSeasonID();
+                                LocalDate itemDate = episodeItem.getDate();
                                 for (Episode e : episodes) {
-                                    if (e.getSeasonID() == episodeItem.getSeasonID()
-                                            && !e.getDate().isBefore(episodeItem.getDate())) {
+                                    boolean b1 = e.getSeasonID() == itemID;
+                                    boolean b2 = !e.getDate().isBefore(itemDate);
+                                    if(b1 && b2)
+                                    {
                                         e.setDate(e.getDate().plusDays(days));
                                     }
                                 }
@@ -197,20 +201,21 @@ class EpisodeRecycleAdapter extends RecyclerView.Adapter<EpisodeRecycleAdapter.V
     void unselectAllItems(RecyclerView mRecyclerView) {
         FloatingActionButton fab = (FloatingActionButton) mRecyclerView.getRootView().findViewById(R.id.fab_save);
 
-        for (int itemPos = 0; itemPos < getItemCount(); itemPos++) {
-            Episode item = episodes.get(itemPos);
-            if (item.isWatchedStatus()) {
-                //true => seen
-                View view = mRecyclerView.getChildAt(itemPos);
-                if (view == null)//dont know if this fixes the problem //TODO better nullpointer fix
-                    break;
+        int debug1 = mRecyclerView.getChildCount();
+        int debug2 = episodes.size();
 
-                //perform changes for unselected state
-                item.setWatchedStatus(false);
-                counterOfActiveSwitches--;
-                setDesignToUnselected(view);
+        for (int itemPos = 0; itemPos < getItemCount(); itemPos++) {
+            episodes.get(itemPos).setWatchedStatus(false);
+            //true => seen
+            View view = mRecyclerView.getChildAt(itemPos);
+            if (view == null) {//dont know if this fixes the problem //TODO better nullpointer fix
+                System.out.println("ERROR nullpointer at pos: " + itemPos);
+                continue;
             }
+                //perform changes for unselected state
+            setDesignToUnselected(view);
         }
+        counterOfActiveSwitches = 0;
         fab.hide();
     }
 
